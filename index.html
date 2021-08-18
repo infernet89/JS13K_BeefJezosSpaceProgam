@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Beef Jezos Space Program</title>
+	<link rel="stylesheet" href="style.css">
+	<script>
+	function pageLoaded()
+	{
+		level=0;
+		for(i=level+1;i<=1;i++)
+			document.getElementById("level"+i).style="display: none";
+	}
+	function levelUp()
+	{
+		document.getElementById("level"+level++).style="display: none";
+		document.getElementById("level"+level++).style="display: block";
+	}
+	</script>
+</head>
+<body onload='pageLoaded()'>
+	<nav>
+		TODO random generate a person here. With all information needed.
+	</nav>
+
+	<header>
+		<h1>Beef Jezos Space Program</h1>
+		<span>Only 7858 seats left!</span>
+	</header>
+
+	<section>
+		<div id='level0'>
+			<div>TODO title screen here</div>
+			<button>Subscribe</button>
+		</div>
+		<div id='level1'>
+			<div>FIRST FORM HERE</div>
+		</div>
+	</section>
+
+	<footer>
+	Made by Infernet89 for JS13K Competition with theme SPACE
+	</footer>
+</body>
+</html>
+
