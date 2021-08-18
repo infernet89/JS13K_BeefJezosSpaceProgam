@@ -3,37 +3,50 @@
 <head>
 	<title>Beef Jezos Space Program</title>
 	<link rel="stylesheet" href="style.css">
-	<script>
-	function pageLoaded()
-	{
-		level=0;
-		for(i=level+1;i<=1;i++)
-			document.getElementById("level"+i).style="display: none";
-	}
-	function levelUp()
-	{
-		document.getElementById("level"+level++).style="display: none";
-		document.getElementById("level"+level++).style="display: block";
-	}
-	</script>
+	<script src="script.js"></script> 
 </head>
 <body onload='pageLoaded()'>
-	<nav>
-		TODO random generate a person here. With all information needed.
+	<nav id='personalInfo'>
+		<!--TODO random generate a person here. With all information needed. AND DISABLE SELECTION -->
+		<span id='infoName'></span> <span id='infoSurname'></span>
+		<br>
+		<span id='infoBirthYear'></span> / <span id='infoBirthMonth'></span> / <span id='infoBirthDay'></span>
 	</nav>
 
 	<header>
-		<h1>Beef Jezos Space Program</h1>
-		<span>Only 7858 seats left!</span>
+		<!--TODO DEBUG --><h1 onclick='levelUp()'>Beef Jezos Space Program</h1>
+		<span>Only <span id='seatsLeft'>7858</span> seats left!</span>
 	</header>
 
 	<section>
 		<div id='level0'>
 			<div>TODO title screen here</div>
-			<button>Subscribe</button>
+			<button onclick='levelUp()'>Subscribe</button>
 		</div>
 		<div id='level1'>
-			<div>FIRST FORM HERE</div>
+			<label for='name'>Name:</label>
+			<input type='text' id='name' placeholder='Name'/>
+			<br>
+			<label for='surname'>Surname:</label>
+			<input type='text' id='surname' value='Surname'/>
+			<br>
+			<label>
+				<div>Date of birth:</div>
+				<select id='birthYear'>
+					<option value=""><option>
+				</select>
+				<input type='number' id='birthDay' min='0' max='31' placeholder='Day' />
+				<input type='text' id='birthMonth' placeholder='Month' />
+			</label>
+			<br>
+			<br>
+			<button onclick='cancel()' class='cancelButton'>Cancel</button>
+			<button onclick='submit()' class='submitButton'>Next</button>
+		</div>
+		<!-- UI -->
+		<div id='progressBox'>
+			<span id='currentLevel'>#</span>/1 <br>
+			<span id='currentMinutes'>#</span>:<span id='currentSeconds'>#</span>
 		</div>
 	</section>
 
@@ -42,4 +55,5 @@
 	</footer>
 </body>
 </html>
+
 
