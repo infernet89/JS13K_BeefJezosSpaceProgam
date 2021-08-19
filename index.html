@@ -25,19 +25,19 @@
 		</div>
 		<div id='level1'>
 			<label for='name'>Name:</label>
-			<input type='text' id='name' placeholder='Name'/>
+			<input type='text' id='name' autocomplete='off' placeholder='Name'/>
 			<br>
 			<label for='surname'>Surname:</label>
-			<input type='text' id='surname' value='Surname'/>
+			<input type='text' id='surname' autocomplete='off' value='Surname'/>
 			<br>
-			<label>
-				<div>Date of birth:</div>
-				<select id='birthYear'>
-					<option value=""><option>
-				</select>
-				<input type='number' id='birthDay' min='0' max='31' placeholder='Day' />
-				<input type='text' id='birthMonth' placeholder='Month' />
-			</label>
+			<label>Date of birth:</label>
+			<select id='birthYear' autocomplete='off'>
+				<option value="">Year<option>
+			</select>
+			<input type='number' id='birthDay' autocomplete='off' min='0' max='31' placeholder='Day' />
+			<input type='text' id='birthMonth' autocomplete='off' size="2" placeholder='Month' />
+			<br>
+			<br>
 			<br>
 			<br>
 			<button onclick='cancel()' class='cancelButton'>Cancel</button>

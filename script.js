@@ -22,8 +22,8 @@ function pageLoaded()
 	//fill info
 	document.getElementById("infoName").innerHTML=name;
 	document.getElementById("infoSurname").innerHTML=surname;
-	document.getElementById("infoBirthDay").innerHTML=birthDay;
-	document.getElementById("infoBirthMonth").innerHTML=birthMonth;
+	document.getElementById("infoBirthDay").innerHTML=(birthDay<10?"0":"")+birthDay;;
+	document.getElementById("infoBirthMonth").innerHTML=(birthMonth<10?"0":"")+birthMonth;
 	document.getElementById("infoBirthYear").innerHTML=birthYear;
 	//TODO DEBUG
 	levelUp();

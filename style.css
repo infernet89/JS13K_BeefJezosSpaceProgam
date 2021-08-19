@@ -16,7 +16,7 @@ nav {
     user-select: none;
 }
 section {
-    text-align: left;
+    text-align: center;
     margin-top: 2%;
 }
 footer {
@@ -28,15 +28,34 @@ footer {
    font-size: 10px;
    text-align: center;
 }
-#progressBox
-{
-  position:absolute;
+#progressBox {
+  position: absolute;
   right: 0px;
   top: 10%;
-  border: solid 1px white;
+  border: solid 1px #444;
+  padding: 0.3em;
+  font-size: 1.1em;
+  text-align: center;
 }
-label
-{
+label {
   display: block;
   text-decoration: underline;
+  font-size: 2em;
+}
+input, select {
+  font-size: 1.2em;
+  padding: 0.2em;
+  margin: 0.3em;
+}
+button {
+  font-size: 3em;
+  border-radius: 10px;
+  padding: 0.3em;
+  margin: 0.3em;
+}
+
+.submitButton {
+  background-color: blue;
+  color: white;
+
 }
