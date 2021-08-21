@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title>Beef Jezos Space Program</title>
 	<link rel="stylesheet" href="style.css">
 	<script src="script.js"></script> 
@@ -9,8 +10,19 @@
 	<nav id='personalInfo'>
 		<!--TODO random generate a person here. With all information needed. AND DISABLE SELECTION -->
 		<span id='infoName'></span> <span id='infoSurname'></span>
-		<br>
+		<br><br>
+		Born on:<br>
 		<span id='infoBirthYear'></span> / <span id='infoBirthMonth'></span> / <span id='infoBirthDay'></span>
+		<br><br>
+		Live in: <br>
+		<span id='infoCountry'></span> - <span id='infoCity'></span> (<span id='infoZipCode'></span>)
+		<br><br>
+		Phone: <br>
+		<span id='infoPhone'></span>
+		<br><br>
+		Email: <br>
+		<span id='infoEmail' style='font-size:0.7em;'></span>
+		<br><br>
 	</nav>
 
 	<header>
@@ -36,6 +48,39 @@
 			</select>
 			<input type='number' id='birthDay' autocomplete='off' min='0' max='31' placeholder='Day' />
 			<input type='text' id='birthMonth' autocomplete='off' size="2" placeholder='Month' />
+			<br>
+			<br>
+			<br>
+			<br>
+			<button onclick='cancel()' class='cancelButton'>Cancel</button>
+			<button onclick='submit()' class='submitButton'>Next</button>
+		</div>
+		<div id='level2'>
+			<label>Country:</label>
+			<select id='country' autocomplete='off'>
+			</select>
+			<br>
+			<label>City:</label>
+			<select id='city1'>
+			</select>
+			<select id='city2'>
+			</select>
+			<select id='city3'>
+			</select>
+			<select id='city4'>
+			</select>
+			<select id='city5'>
+			</select>
+			<br>
+			<label>Zip Code:</label>
+			<input type='number' id='zipCode' autocomplete='off' value="50000" readonly />
+			<input type='hidden' id='zipCodeMin' autocomplete='off' value="0" readonly />
+			<input type='hidden' id='zipCodeMax' autocomplete='off' value="99999" readonly />
+			<button class='smallButton' onclick="binaryEdit('zipCode','+')">+</button> 
+			<button class='smallButton' onclick="binaryEdit('zipCode','-')">-</button> 
+			<button class='smallButton' onclick="binaryEdit('zipCode','R')">R</button> 
+			<br>
+
 			<br>
 			<br>
 			<br>
