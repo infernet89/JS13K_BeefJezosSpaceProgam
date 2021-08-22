@@ -1,7 +1,9 @@
-var maxLevel=2;//TODO DEBUG
+var maxLevel=4;//TODO DEBUG
 var secondsPassed=0;
 var level=0;
 var seatsLeft=9999;
+var phoneDigits=[];
+var cooldown=false;
 //random character generation
 var names=["Michael","Christopher","Jessica","Matthew","Ashley","Jennifer","Joshua","Amanda","Daniel","David","James","Robert","John","Joseph","Andrew","Ryan","Brandon","Jason","Justin","Sarah","William","Jonathan","Stephanie","Brian","Nicole","Nicholas","Anthony","Heather","Eric","Elizabeth","Adam","Megan","Melissa","Kevin","Steven","Thomas","Timothy","Christina","Kyle","Rachel","Laura","Lauren","Amber","Brittany","Danielle","Richard","Kimberly","Jeffrey","Amy","Crystal","Michelle","Tiffany","Jeremy","Benjamin","Mark","Emily","Aaron","Charles","Rebecca","Jacob","Stephen","Patrick","Sean","Erin","Zachary","Jamie","Kelly","Samantha","Nathan","Sara","Dustin","Paul","Angela","Tyler","Scott","Katherine","Andrea","Gregory","Erica","Mary","Travis","Lisa","Kenneth","Bryan","Lindsey","Kristen","Jose","Alexander","Jesse","Katie","Lindsay","Shannon","Vanessa","Courtney","Christine","Alicia","Cody","Allison","Bradley","Samuel","Shawn","April","Derek","Kathryn","Kristin","Chad","Jenna","Tara","Maria","Krystal","Jared","Anna","Edward","Julie","Peter","Holly","Marcus","Kristina","Natalie","Jordan","Victoria","Jacqueline","Corey","Keith","Monica","Juan","Donald","Cassandra","Meghan","Joel","Shane","Phillip","Patricia","Brett","Ronald","Catherine","George","Antonio","Cynthia","Stacy","Kathleen","Raymond","Carlos","Brandi","Douglas","Nathaniel","Ian","Craig","Brandy","Alex","Valerie","Veronica","Cory","Whitney","Gary","Derrick","Philip","Luis","Diana","Chelsea","Leslie","Caitlin","Leah","Natasha","Erika","Casey","Latoya","Erik","Dana","Victor","Brent","Dominique","Frank","Brittney","Evan","Gabriel","Julia","Candice","Karen","Melanie","Adrian","Stacey","Margaret","Sheena","Wesley","Vincent","Alexandra","Katrina","Bethany","Nichole","Larry","Jeffery","Curtis","Carrie","Todd","Blake","Christian","Randy","Dennis","Alison","Trevor","Seth","Kara","Joanna","Rachael","Luke","Felicia","Brooke","Austin","Candace","Jasmine","Jesus","Alan","Susan","Sandra","Tracy","Kayla","Nancy","Tina","Krystle","Russell","Jeremiah","Carl","Miguel","Tony","Alexis","Gina","Jillian","Pamela","Mitchell","Hannah","Renee","Denise","Molly","Jerry","Misty","Mario","Johnathan","Jaclyn","Brenda","Terry","Lacey","Shaun","Devin","Heidi","Troy","Lucas","Desiree","Jorge","Andre","Morgan","Drew","Sabrina","Miranda","Alyssa","Alisha","Teresa","Johnny"];
 var name=names[Math.floor(Math.random()*names.length)];
@@ -40,8 +42,9 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	//levelUp();
-	//levelUp();
+	levelUp();
+	levelUp();
+	levelUp();
 }
 function levelUp()
 {
@@ -54,7 +57,7 @@ function levelUp()
 		{
 			var opt = document.createElement('option');
 		    opt.value = i;
-		    opt.innerHTML = i;
+		    opt.innerHTML = "&zwnj;"+i;
 		    document.getElementById("birthYear").appendChild(opt);
 		}
 		//giorno
@@ -69,7 +72,7 @@ function levelUp()
 		{
 			var opt = document.createElement('option');
 		    opt.value = countries[i];
-		    opt.innerHTML = countries[i];
+		    opt.innerHTML = "&zwnj;"+countries[i];
 		    document.getElementById("country").appendChild(opt);
 		}
 		//City
@@ -79,7 +82,7 @@ function levelUp()
 			{
 				var opt = document.createElement('option');
 				opt.value = String.fromCharCode(97+i);
-			    opt.innerHTML = String.fromCharCode(97+i);
+			    opt.innerHTML = "&zwnj;"+String.fromCharCode(97+i);
 			    document.getElementById("city"+j).appendChild(opt);
 			}
 		    var opt = document.createElement('option');
@@ -87,6 +90,24 @@ function levelUp()
 		    opt.innerHTML = String.fromCharCode(65+i);
 		    document.getElementById("city1").appendChild(opt);
 		}
+	}
+	else if(level==3)
+	{
+		document.getElementById("confirmPasswordBox").style.display= "none";
+		document.getElementById("submitPasswordButton").addEventListener("mouseover", function(evt){ document.getElementById("confirmPasswordBox").style.display="block"; });
+		document.getElementById("level3").addEventListener('paste', (event) => {event.preventDefault();	});
+	}
+	else if(level==4)
+	{
+		//phoneDigits
+		for(i=0;i<10;i++)
+		{
+			phoneDigits[i]={};
+			phoneDigits[i].y=window.scrollY + document.querySelector('#phoneButton'+i).getBoundingClientRect().top // Y
+			phoneDigits[i].x=window.scrollX + document.querySelector('#phoneButton'+i).getBoundingClientRect().left // X
+		}
+		for(i=0;i<10;i++)
+			document.getElementById("phoneButton"+i).style="position: absolute; left: "+phoneDigits[i].x+"px; top: "+phoneDigits[i].y+"px;";
 	}
 }
 function animate()
@@ -184,4 +205,36 @@ function binaryEdit(name,operator)
 		document.getElementById(name+"Max").value=current-1;
 		document.getElementById(name).value=Math.floor((current-1+min)/2);
 	}
+}
+function insertPhone(digit)
+{
+	if(digit=="←")
+	{
+		document.getElementById("phone").value=document.getElementById("phone").value.substring(0,document.getElementById("phone").value.length-1);
+		return;
+	}
+	//se sto facendo l'animazione, non faccio nulla
+	if(cooldown)
+		return;
+	//document.getElementById("phoneButton"+digit).style.display = 'none';
+	document.getElementById("phone").value=document.getElementById("phone").value+digit;
+	document.getElementById("phoneButton"+digit).style.top = '-9999px';
+	for(i=0;i<10;i++)
+	{
+		document.getElementById("phoneButton"+i).innerHTML=i;
+		var a=Math.floor(Math.random()*10);
+		var b=Math.floor(Math.random()*10);
+		tmp=phoneDigits[a].x;
+		phoneDigits[a].x=phoneDigits[b].x;
+		phoneDigits[b].x=tmp;
+	}
+	cooldown=true;
+	setTimeout(function(){
+		for(i=0;i<10;i++)
+		{
+			document.getElementById("phoneButton"+i).style="position: absolute; left: "+phoneDigits[i].x+"px; top: "+phoneDigits[i].y+"px;";
+			document.getElementById("phoneButton"+i).innerHTML="?";
+		}
+		setTimeout(function(){ cooldown=false; },4000);
+	},2000);
 }

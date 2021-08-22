@@ -88,6 +88,68 @@
 			<button onclick='cancel()' class='cancelButton'>Cancel</button>
 			<button onclick='submit()' class='submitButton'>Next</button>
 		</div>
+		<div id='level3'>
+			<label>Username:</label>
+			<input type='text' id='chosenUsername' autocomplete='off' value="" />
+			<ul class='suggestion'>
+				<li>Minimum length is 10</li>
+				<li>Cannot have two consecutive characters near on the keyboard</li>
+			</ul>
+			<br>
+			<label>Password:</label>
+			<input type='password' id='chosenPassword' autocomplete='off' value="" />
+			<ul class='suggestion'>
+				<li>Minimum length is 10</li>
+				<li>Maximum length is 15</li>
+				<li>Must have a lowercase, uppercase, number and special character</li>
+				<li>Can't contain characters from the username</li>
+				<li>The following characters are forbidden: 1 - ! ?</li>
+			</ul>
+			<br>
+			<div id='confirmPasswordBox'>
+				<label>Confirm Password:</label>
+				<input type='text' id='passwordConfirm' autocomplete='off' value="" />
+				<br>
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<button onclick='submit()' class='cancelButton' id="submitPasswordButton">Next</button>
+			<button onclick='cancel()' class='submitButton'>Cancel</button>
+		</div>
+		<div id='level4'>
+			<label>Phone:</label>
+			<input type='number' id='phone' autocomplete='off' value="" readonly />
+			<button class='smallButton' onclick="insertPhone('←')">←</button>
+			<br>
+			<button id='phoneButton1' class='smallButton' onclick="insertPhone('1')">1</button>
+			<button id='phoneButton2' class='smallButton' onclick="insertPhone('2')">2</button>
+			<button id='phoneButton3' class='smallButton' onclick="insertPhone('3')">3</button>
+			<button id='phoneButton4' class='smallButton' onclick="insertPhone('4')">4</button>
+			<button id='phoneButton5' class='smallButton' onclick="insertPhone('5')">5</button>
+			<button id='phoneButton6' class='smallButton' onclick="insertPhone('6')">6</button>
+			<button id='phoneButton7' class='smallButton' onclick="insertPhone('7')">7</button>
+			<button id='phoneButton8' class='smallButton' onclick="insertPhone('8')">8</button>
+			<button id='phoneButton9' class='smallButton' onclick="insertPhone('9')">9</button>
+			<button id='phoneButton0' class='smallButton' onclick="insertPhone('0')">0</button>
+			<br>
+			<br>
+			<br>
+			<label>Email:</label>
+			<input type='text' id='mailName' autocomplete='off' style="color: white;" />
+			<span style="color: black;">@</span>
+			<input type='text' id='mailDomain' autocomplete='off' style="color: white;" />
+			<span style="color: black;">.</span>
+			<input type='text' id='mailCountry' autocomplete='off' style="color: white;" />
+			<br>
+			<br>
+			<label>Agreements:</label>
+			<input type='checkbox' id='agreement1'/> Agree to TODO 1 <br>
+			<input type='checkbox' id='agreement2'/> Agree to 2 <br>
+			<input type='checkbox' id='agreement3'/> Agree to 3 <br>
+			<input type='checkbox' id='agreement4'/> Agree to 4 <br>
+		</div>
 		<!-- UI -->
 		<div id='progressBox'>
 			<span id='currentLevel'>#</span>/1 <br>

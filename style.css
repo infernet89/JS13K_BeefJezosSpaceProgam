@@ -66,9 +66,19 @@ button {
 .smallButton {
   font-size: 0.8em;
   border-radius: 5px;
+  animation-duration: 4s;
+  -webkit-transition: all 4s ease;
 }
 
 .submitButton {
   background-color: blue;
   color: white;
+}
+
+.suggestion {
+  text-align: left;
+  font-size: 0.7em;
+  display: block;
+  margin-left: 48%;
+  margin-top: -5px;
 }
