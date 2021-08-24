@@ -92,23 +92,23 @@
 			<label>Username:</label>
 			<input type='text' id='chosenUsername' autocomplete='off' value="" />
 			<ul class='suggestion'>
-				<li>Minimum length is 10</li>
-				<li>Cannot have two consecutive characters near on the keyboard</li>
+				<li id='usernameLength'>Minimum length is 10</li>
+				<li id='usernameCharacters'>Cannot have two consecutive characters near on the keyboard</li>
 			</ul>
 			<br>
 			<label>Password:</label>
 			<input type='password' id='chosenPassword' autocomplete='off' value="" />
 			<ul class='suggestion'>
-				<li>Minimum length is 10</li>
-				<li>Maximum length is 15</li>
-				<li>Must have a lowercase, uppercase, number and special character</li>
-				<li>Can't contain characters from the username</li>
-				<li>The following characters are forbidden: 1 - ! ?</li>
+				<li id='passwordMinLength'>Minimum length is 10</li>
+				<li id='passwordMaxLength'>Maximum length is 15</li>
+				<li id='passwordComplexity'>Must have a lowercase, uppercase, number and special character</li>
+				<li id='passwordUsernameCharacters'>Can't contain characters from the username</li>
+				<li id='passwordForbiddenCharacters'>The following characters are forbidden: 1 - ! ?</li>
 			</ul>
 			<br>
 			<div id='confirmPasswordBox'>
 				<label>Confirm Password:</label>
-				<input type='text' id='passwordConfirm' autocomplete='off' value="" />
+				<input type='password' id='passwordConfirm' autocomplete='off' value="" />
 				<br>
 			</div>
 			<br>
@@ -145,14 +145,20 @@
 			<br>
 			<br>
 			<label>Agreements:</label>
-			<input type='checkbox' id='agreement1'/> Agree to TODO 1 <br>
-			<input type='checkbox' id='agreement2'/> Agree to 2 <br>
-			<input type='checkbox' id='agreement3'/> Agree to 3 <br>
-			<input type='checkbox' id='agreement4'/> Agree to 4 <br>
+			<input type='checkbox' id='agreement1' autocomplete='off'/> Agree to all <a href='#'>terms and condition</a>, and all points below <br>
+			<input type='checkbox' id='agreement2' autocomplete='off'/> Agree to let my information be used for space reason <br>
+			<input type='checkbox' id='agreement3' autocomplete='off'/> Agree to be unable to pass to the next form <br>
+			<input type='checkbox' id='agreement4' autocomplete='off'/> Agree to this only if minutes are odd <br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<button onclick='cancel()' class='cancelButton'>Cancel</button>
+			<button onclick='submit()' class='submitButton'>Next</button>
 		</div>
 		<!-- UI -->
 		<div id='progressBox'>
-			<span id='currentLevel'>#</span>/1 <br>
+			<span id='currentLevel'>#</span><br>
 			<span id='currentMinutes'>#</span>:<span id='currentSeconds'>#</span>
 		</div>
 	</section>

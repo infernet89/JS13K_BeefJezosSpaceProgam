@@ -45,6 +45,7 @@ function pageLoaded()
 	levelUp();
 	levelUp();
 	levelUp();
+	levelUp();
 }
 function levelUp()
 {
@@ -96,6 +97,9 @@ function levelUp()
 		document.getElementById("confirmPasswordBox").style.display= "none";
 		document.getElementById("submitPasswordButton").addEventListener("mouseover", function(evt){ document.getElementById("confirmPasswordBox").style.display="block"; });
 		document.getElementById("level3").addEventListener('paste', (event) => {event.preventDefault();	});
+		document.getElementById('chosenUsername').addEventListener('keyup',liveLoginCheck);
+		document.getElementById('chosenUsername').addEventListener('keydown', function(e){ if(e.keyCode!=8 && e.keyCode!=46 && (e.keyCode<65 || e.keyCode>90)){e.preventDefault(); return false;}});
+		document.getElementById('chosenPassword').addEventListener('keyup',liveLoginCheck);
 	}
 	else if(level==4)
 	{
@@ -108,12 +112,18 @@ function levelUp()
 		}
 		for(i=0;i<10;i++)
 			document.getElementById("phoneButton"+i).style="position: absolute; left: "+phoneDigits[i].x+"px; top: "+phoneDigits[i].y+"px;";
+		//agreements
+		document.getElementById('agreement1').addEventListener('click',function(){
+			document.getElementById('agreement2').checked = true;
+			document.getElementById('agreement3').checked = true;
+			document.getElementById('agreement4').checked = true;
+		});
 	}
 }
 function animate()
 {
 	secondsPassed++;
-	document.getElementById("currentLevel").innerHTML=level;
+	document.getElementById("currentLevel").innerHTML=level+"/"+maxLevel;
 	document.getElementById("currentMinutes").innerHTML=Math.floor(secondsPassed/60);
 	document.getElementById("currentSeconds").innerHTML=((secondsPassed%60<10)?"0":"")+secondsPassed%60;
 	document.getElementById("seatsLeft").innerHTML=Math.floor(seatsLeft-=(10*Math.random()));
@@ -146,6 +156,39 @@ function cancel()
 		binaryEdit('zipCode','R');
 		document.getElementById("zipCode").style="background-color: white";
 	}
+	else if(level==3)
+	{
+		document.getElementById('chosenUsername').value="";
+		document.getElementById('chosenUsername').style="background-color: white";
+		document.getElementById('chosenPassword').value="";
+		document.getElementById('chosenPassword').style="background-color: white";
+		document.getElementById('passwordConfirm').value="";
+		document.getElementById('passwordConfirm').style="background-color: white";
+		document.getElementById('usernameLength').style="color: white";
+		document.getElementById('usernameCharacters').style="color: white";
+		document.getElementById('passwordMinLength').style="color: white";
+		document.getElementById('passwordMaxLength').style="color: white";
+		document.getElementById('passwordComplexity').style="color: white";
+		document.getElementById('passwordUsernameCharacters').style="color: white";
+		document.getElementById('passwordForbiddenCharacters').style="color: white";
+	}
+	else if(level==4)
+	{
+		document.getElementById('phone').value="";
+		document.getElementById('phone').style="background-color: white";
+		for(i=0;i<10;i++)
+			document.getElementById("phoneButton"+i).innerHTML=i;
+		document.getElementById('mailName').value="";
+		document.getElementById('mailName').style="background-color: white";
+		document.getElementById('mailDomain').value="";
+		document.getElementById('mailDomain').style="background-color: white";
+		document.getElementById('mailCountry').value="";
+		document.getElementById('mailCountry').style="background-color: white";
+		document.getElementById('agreement1').checked = false;
+		document.getElementById('agreement2').checked = false;
+		document.getElementById('agreement3').checked = false;
+		document.getElementById('agreement4').checked = false;
+	}
 }
 function submit()
 {
@@ -167,6 +210,11 @@ function submit()
 		    nErrors+=checkElement('city'+j,city[j-1]);
 		}
 		nErrors+=checkElement('zipCode',zipCode);
+	}
+	else if(level==3)
+	{
+		nErrors+=liveLoginCheck();
+		nErrors+=checkElement('passwordConfirm',document.getElementById("chosenPassword").value);
 	}
 	if(!nErrors)
 		levelUp();
@@ -205,6 +253,95 @@ function binaryEdit(name,operator)
 		document.getElementById(name+"Max").value=current-1;
 		document.getElementById(name).value=Math.floor((current-1+min)/2);
 	}
+}
+function liveLoginCheck()
+{
+	var nWrong=0;
+	var near=[];
+	near["q"]="qwsa";
+	near["w"]="wqasde";
+	near["e"]="ewsdfr";
+	near["r"]="redfgt";
+	near["t"]="trfghy";
+	near["y"]="ytghju";
+	near["u"]="uyhjki";
+	near["i"]="iujklo";
+	near["o"]="oiklp";
+	near["p"]="pol";
+	near["a"]="aqwsxz";
+	near["s"]="sqwedcxza";
+	near["d"]="dwsxcvfre";
+	near["f"]="fertgvbcd";
+	near["g"]="grtyhnbvf";
+	near["h"]="htgbnmjuy";
+	near["j"]="jyuikmnhy";
+	near["k"]="kuioljm";
+	near["l"]="loik";
+	near["z"]="zasx";
+	near["x"]="xzasdc";
+	near["c"]="cxsdfv";
+	near["v"]="vcdfgb";
+	near["b"]="bvfghn";
+	near["n"]="nbghjm";
+	near["m"]="mnhjk";
+
+	var username=document.getElementById("chosenUsername").value.toLowerCase();
+	var password=document.getElementById("chosenPassword").value;
+	if(username.length<10)
+	{
+		document.getElementById('usernameLength').style.color="red";
+		nWrong++;
+	}		
+	else
+		document.getElementById('usernameLength').style.color="green";
+	document.getElementById('usernameCharacters').style.color="green";
+	for(i=0;i<username.length-1;i++)
+	{
+		if(near[username[i]].includes(username[i+1]))
+		{
+			document.getElementById('usernameCharacters').style.color="red";
+			nWrong++;
+		}
+	}
+	if(password.length<10)
+	{
+		document.getElementById('passwordMinLength').style.color="red";
+		nWrong++;
+	}
+	else document.getElementById('passwordMinLength').style.color="green";
+
+	if(password.length>15)
+	{
+		document.getElementById('passwordMaxLength').style.color="red";
+		nWrong++;
+	}
+	else document.getElementById('passwordMaxLength').style.color="green";
+
+	//check for complexity
+	var pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$");
+	if(!pattern.test(password))
+	{
+		document.getElementById('passwordComplexity').style.color="red";
+		nWrong++;
+	}
+	else document.getElementById('passwordComplexity').style.color="green";
+	
+	document.getElementById('passwordUsernameCharacters').style.color="green";
+	document.getElementById('passwordForbiddenCharacters').style.color="green";
+	for(i=0;i<password.length;i++)
+	{
+		if("1-!?".includes(password[i]))
+		{
+			document.getElementById('passwordForbiddenCharacters').style.color="red";
+			nWrong++;
+		}
+		if(username.includes(password[i].toLowerCase()))
+		{
+			document.getElementById('passwordUsernameCharacters').style.color="red";
+			nWrong++;
+		}
+	}
+	return nWrong;
 }
 function insertPhone(digit)
 {
