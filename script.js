@@ -21,7 +21,10 @@ var cities=["Jesse","Volda","Thiva","Wever","Amora","Olgii","Amlin","Bison","Cas
 var city=cities[Math.floor(Math.random()*cities.length)];
 var zipCode=10000+Math.floor(Math.random()*89999);
 var phone=1000000000+Math.floor(Math.random()*8999999999);
-var email=(name.toLowerCase())+"."+(surname.toLowerCase())+"@"+(city.toLowerCase().substring(0,5))+"."+(country.toLowerCase().substring(0,2));
+var emailName=(name.toLowerCase())+"."+(surname.toLowerCase());
+var emailDomain=(city.toLowerCase().substring(0,5));
+var emailCountry=(country.toLowerCase().substring(0,2));
+var email=emailName+"@"+emailDomain+"."+emailCountry;
 
 function pageLoaded()
 {
@@ -42,10 +45,20 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
+	/*
 	levelUp();
 	levelUp();
 	levelUp();
 	levelUp();
+	*/
+	/*TODO idee
+		- loading, ma lentissimo. Trascinarlo per velocizzare
+		- griglia di checkbox da accettare, ma un clic prende anche quelle vicine
+		- il pulsante next è coperto da un AD, andare offline per rimuoverlo
+		- Age (scorre velocemente, devi premere stop)
+		- Gender (Lettere a scorrimento in basso, devi scrivere Male/Female/Helicopter); 
+		- Maze da fare con il mouse per evitare di cancellare il form
+	*/
 }
 function levelUp()
 {
@@ -118,6 +131,9 @@ function levelUp()
 			document.getElementById('agreement3').checked = true;
 			document.getElementById('agreement4').checked = true;
 		});
+		document.getElementById('mailName').addEventListener('keydown', function(e){ this.style="background-color: 'white';"; this.style.color='white';} );
+		document.getElementById('mailDomain').addEventListener('keydown', function(e){ this.style="background-color: 'white';"; this.style.color='white';} );
+		document.getElementById('mailCountry').addEventListener('keydown', function(e){ this.style="background-color: 'white';"; this.style.color='white';} );
 	}
 }
 function animate()
@@ -128,9 +144,9 @@ function animate()
 	document.getElementById("currentSeconds").innerHTML=((secondsPassed%60<10)?"0":"")+secondsPassed%60;
 	document.getElementById("seatsLeft").innerHTML=Math.floor(seatsLeft-=(10*Math.random()));
 }
+//a seconda del livello, pulisci il form
 function cancel()
-{
-	//TODO a seconda del livello, pulisci il form
+{	
 	if(level==1)
 	{
 		document.getElementById('name').value="";
@@ -190,9 +206,9 @@ function cancel()
 		document.getElementById('agreement4').checked = false;
 	}
 }
+//a seconda del livello, controlla che i dati inseriti siano corretti
 function submit()
 {
-	//TODO a seconda del livello, controlla che i dati inseriti siano corretti
 	var nErrors=0;
 	if(level==1)
 	{
@@ -215,6 +231,22 @@ function submit()
 	{
 		nErrors+=liveLoginCheck();
 		nErrors+=checkElement('passwordConfirm',document.getElementById("chosenPassword").value);
+	}
+	else if(level==4)
+	{
+		nErrors+=checkElement('phone',phone);
+		nErrors+=checkElement('mailName',emailName);
+		nErrors+=checkElement('mailDomain',emailDomain);
+		nErrors+=checkElement('mailCountry',emailCountry);
+		if(!document.getElementById('agreement1').checked)
+			nErrors++;
+		if(!document.getElementById('agreement2').checked)
+			nErrors++;
+		if(document.getElementById('agreement3').checked)
+			nErrors++;
+		var evenMinutes=(new Date().getMinutes()%2==0);
+		if(document.getElementById('agreement4').checked === evenMinutes)
+			nErrors++;
 	}
 	if(!nErrors)
 		levelUp();
