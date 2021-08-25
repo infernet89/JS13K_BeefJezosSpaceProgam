@@ -20,6 +20,8 @@ var birthMonth=birthDate.getMonth()+1;
 var months=["January","February","March","April","May","June","July","August","September","October","November","December"];
 var birthMonthString=months[birthDate.getMonth()];
 var birthDay=birthDate.getDate();
+var age=Math.floor(((new Date()).getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24 * 365.2425));
+var zodiacSign=getZodiac(birthMonth,birthDay);
 var countries=["Senegal","Macedonia","Belarus","Tajikistan","Liberia","Costa Rica","Bulgaria","Ukraine","Luxembourg","Guyana","Lesotho","Nicaragua","Taiwan","Norway","Lithuania","Venezuela","Kyrgyzstan","Argentina","Sierra Leone","Cameroon","Malaysia","Netherlands","Liechtenstein","Saudi Arabia","Vatican City","Kiribati","Algeria","Finland","Andorra","Nigeria","Laos","Gabon","Israel","Eritrea","United Kingdom","Qatar","Samoa","Armenia","Croatia","Cyprus","Vanuatu","Philippines","United States","Turkey","Sweden","Burundi","Brazil","Italy","San Marino","Panama","Thailand","Maldives","Estonia","Slovenia","Russian Federation","Kuwait","Kenya","Bahrain","Chile","Fiji","South Africa","Belgium","India","Singapore","Serbia","Morocco","Georgia","Albania","Malta","Botswana","Czech Republic","Bosnia Herzegovina","Ethiopia","Mauritania","Malawi","Burkina","Nauru","Slovakia","Turkmenistan","France","Solomon Islands","Dominica","Latvia","Cuba","Australia","Mauritius","Spain","Palau","Haiti","Japan","Vietnam","Kosovo","Uruguay","Azerbaijan","East Timor","South Sudan","Poland","Bolivia","Tonga","Somalia","Yemen","Cape Verde","Pakistan","Papua New Guinea","Moldova","Grenada","Ecuador","Iran","Kazakhstan","Greece","St Lucia","Niger","Tanzania","Tuvalu","Belize","Switzerland","Chad","Marshall Islands","Korea South","Djibouti","Montenegro","Uzbekistan","Guinea","Iceland","Uganda","Afghanistan","Central African Rep","Sudan","Korea North","Denmark","Angola","Equatorial Guinea","New Zealand","Seychelles","Indonesia","Monaco","Comoros","Brunei","Swaziland","Syria","Gambia","Rwanda","Peru","Oman","Guatemala","Micronesia","Portugal","Germany","Mozambique","Ghana","Dominican Republic","Austria","Zambia","Zimbabwe","Hungary","Madagascar","El Salvador","Guinea-Bissau","Jordan","Iraq","United Arab Emirates","Honduras","Colombia","Mongolia","Egypt","Congo","Suriname","Sri Lanka","Benin","Nepal","Jamaica","Namibia","China","Cambodia","Bangladesh","Paraguay","Togo","Libya","Barbados","Tunisia","Mexico","Mali","Bhutan","Lebanon","Bahamas","Canada","Romania","Ivory Coast"];
 var country=countries[Math.floor(Math.random()*countries.length)];
 var cities=["Jesse","Volda","Thiva","Wever","Amora","Olgii","Amlin","Bison","Casco","Thane","Onaga","Capay","Imazu","Lucca","Cocoa","Couva","Nybro","Eolia","Bstad","Moxee","Heron","Vevay","Exton","Geham","Caret","Moody","Pasto","Plain","Fermo","Omiya","Virum","Meers","Hurst","Arese","Young","Alsea","Kunia","Vilas","Dagun","Minto","Mella","Wayan","Cyrus","Yreka","Yauco","Brady","Ashby","Louth","Epsom","Ximba","Rouen","Minot","Porto","Cache","Fonda","Pratt","Wavre","Rhine","Minoa","Rolfe","Angie","Sadri","Hague","Bisho","Gouda","Rolla","Scalf","Alida","Force","Miraj","Mayer","Sanda","Camas","Moose","Warda","Omuta","Olean","Nyeri","Hulin","Ruili","Weert","Akola","Galan","Aline","Chita","Porus","Uledi","Boles","Samos","Colby","Cabot","Mills","Kodak","Copan","Tulia","Evart","Adare","Arbil","Mazon","Vance","Saxon","Quail","Opava","Kerry","Esbon","Maroa","Eilat","Maize","Azusa","Eefde","Anita","Lubno","Sweet","Thors","Adona","Berat","Burua","Ethan","Parnu","Baran","Madoi","Light","Huade","Hibbs","Blsta","Lynch","Carmi","Hulen","Kelso","Torch","Lecco","Grawn","Taopi","Conda","Haden","Paget","Bretz","Muncy","Sudan","Niles","Olive","Davey","Lenox","Nancy","Lavon","Bourg","Marcy","Bondi","Dixon","Smyer","Osseo","Surry","Tieri","Avoca","Arita","Oxley","Swain","Boron","Rodeo","Coban","Micro","Ellis","Dille","Ohito","Tunja","Konya","Rauma","Eksjo","Muldu","Drury","Amasa","Healy","Ystad","Jammu","Surat","Glady","Bunch","Paden","Tomsk","Reyno","Aptos","Laoag","Witta","Neiva","Balia","Malta","Wesco","Davin","Cisne","Waban","Hazel","Ivins","Talmo","Blain","Stone","Plush","Edmon","Mamon","Louin","Wrens","Sears","Dunlo","Wyano","Blach","Faber","Cuiab","Grant","Sylva","Maceo","Redan","Awali","Sakai","Crook","TOLGA","Utica","Gully","Farum","Ronda","KAIRI","Shock","Upton","Patan","Omega","Orrum","Seale","DIXIE","Gates","Tully","WUHAN","Bejou","Aalst","Basin","Kress","House","Percy","Denbo","Borup","Wauna","Morse","Narka","Venta","Jinja","Batam","Wausa","Santa","Simms","Espoo","Yutan","Happy","Aniak","Doran","Kemah","Visby","Banco","Ohrid","Guild","Mound","Derma","Letts"];
@@ -56,7 +58,7 @@ function pageLoaded()
 	levelUp();
 	levelUp();
 	levelUp();
-	//levelUp();
+	levelUp();
 	
 	/*TODO idee
 		- griglia di checkbox da accettare, ma un clic prende anche quelle vicine
@@ -141,7 +143,7 @@ function levelUp()
 	}
 	else if(level==5)
 	{
-		animations['loading']=setInterval(loading,100);
+		animations['loading']=setInterval(loading,30);
 		var canvas=document.getElementById("loadingScreen");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -151,6 +153,17 @@ function levelUp()
 	{
 		animations['age']=setInterval(progressAge,80);
 		animations['alphabet']=setInterval(progressLetters,200);
+		//fill periodic table
+		var elements=["H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th","Pa","U","Np","Pu","Am","Cm","Bk","Cf","Es","Fm","Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds","Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"];
+		for(i=0;i<elements.length;i++)
+		{
+			document.getElementById('periodicTable').innerHTML+="<input onmouseover='this.checked=!this.checked' type='checkbox' id='element"+i+"' />"+elements[i]+"";
+			if((i+1)%15==0)
+				document.getElementById('periodicTable').innerHTML+="<br>";
+		}
+		document.getElementById('level6').addEventListener("mousemove",mossoMouse);
+		document.getElementById("level6").addEventListener("contextmenu", sparitoMouse);
+		document.addEventListener("blur",sparitoMouse);
 	}
 }
 function progressAge()
@@ -239,13 +252,52 @@ function cliccatoMouse(evt)
 }
 function mossoMouse(evt)
 {
-    var rect = document.getElementById("loadingScreen").getBoundingClientRect();
-    mousex=(evt.clientX-rect.left)/(rect.right-rect.left)*400;
-    mousey=(evt.clientY-rect.top)/(rect.bottom-rect.top)*400;
-    if(distanceFrom(mousex,mousey,200,200)<60)
-    	document.getElementById('loadingScreen').style.cursor = "pointer";
-    else 
-    	document.getElementById('loadingScreen').style.cursor = "default";
+    var rect = this.getBoundingClientRect();
+    mousex=(evt.clientX-rect.left)/(rect.right-rect.left)*rect.width;
+    mousey=(evt.clientY-rect.top)/(rect.bottom-rect.top)*rect.height;
+    if(level==5)
+    {
+    	if(distanceFrom(mousex,mousey,200,200)<60)
+    		document.getElementById('loadingScreen').style.cursor = "pointer";
+	    else 
+	    	document.getElementById('loadingScreen').style.cursor = "default";
+    }
+    else if(level==6)
+    {
+    	mousex+=rect.left;
+    	mousey+=rect.top;
+    	//console.log(mousex,mousey,"|",periodicTable.left,periodicTable.top,"?",periodicTable.left+periodicTable.width,periodicTable.top+periodicTable.height);
+    	diffx=(oldMousex==-1)?0:mousex-oldMousex;
+    	diffy=(oldMousey==-1)?0:mousey-oldMousey;
+    	for(i=0;i<10;i++)
+	    	if(onPeriodicTableBorder(mousex-diffx*i/10,mousey-diffy*i/10))
+	    	{
+	    		for(j=0;j<118;j++)
+	    			document.getElementById('element'+j).checked=false;
+	    		i=10;
+	    	}    		
+		oldMousex=mousex;
+    	oldMousey=mousey;
+    }
+}
+function sparitoMouse(evt)
+{
+    oldMousex=oldMousey=mousex=mousey=-1;
+    setTimeout(function() {oldMousex=oldMousey=mousex=mousey=-1;},200);
+}
+function onPeriodicTableBorder(mx,my)
+{
+	var periodicTable=document.getElementById('periodicTable').getBoundingClientRect();
+	if(mx>periodicTable.left 
+    	&& mx<periodicTable.left+periodicTable.width
+    	&& my>periodicTable.top 
+    	&& my<periodicTable.top+periodicTable.height
+    		&& (mx<periodicTable.left+50		
+    		|| mx>periodicTable.left+periodicTable.width-50
+    		|| my<periodicTable.top+50
+    		|| my>periodicTable.top+periodicTable.height-50)
+    	)
+    	return true;
 }
 function rilasciatoMouse(evt)
 {
@@ -263,7 +315,7 @@ function animate()
 	document.getElementById("currentSeconds").innerHTML=((secondsPassed%60<10)?"0":"")+secondsPassed%60;
 	document.getElementById("seatsLeft").innerHTML=Math.floor(seatsLeft-=(10*Math.random()));
 }
-//a seconda del livello, pulisci il form
+//a seconda del livello, pulisci il form //TODO
 function cancel()
 {	
 	if(level==1)
@@ -324,8 +376,17 @@ function cancel()
 		document.getElementById('agreement3').checked = false;
 		document.getElementById('agreement4').checked = false;
 	}
+	else if(level==6)
+	{
+		document.getElementById('age').value="0";
+		document.getElementById('age').style="background-color: white";
+		document.getElementById('zodiacSign').value="";
+		document.getElementById('zodiacSign').style="background-color: white";
+		for(i=0;i<118;i++)
+			document.getElementById("element"+i).checked=false;			
+	}
 }
-//a seconda del livello, controlla che i dati inseriti siano corretti
+//a seconda del livello, controlla che i dati inseriti siano corretti //TODO
 function submit()
 {
 	var nErrors=0;
@@ -366,6 +427,15 @@ function submit()
 		var evenMinutes=(new Date().getMinutes()%2==0);
 		if(document.getElementById('agreement4').checked === evenMinutes)
 			nErrors++;
+	}
+	else if(level==6)
+	{
+		nErrors+=checkElement('age',age);
+		nErrors+=checkElement('zodiacSign',zodiacSign);
+		for(i=0;i<118;i++)
+			if(!document.getElementById("element"+i).checked)
+				nErrors++;
+				
 	}
 	if(!nErrors)
 		levelUp();
@@ -525,4 +595,34 @@ function insertPhone(digit)
 		}
 		setTimeout(function(){ cooldown=false; },4000);
 	},2000);
+}
+function getZodiac(month, day){
+	var datecode = month*100 + day; //this will give us a number represent month and day
+	if (datecode <= 120)
+		return "capricorn";
+	else if (datecode <= 219) 
+		return "aquarius";
+	else if (datecode <= 320) 
+		return "pisces";
+	else if (datecode <= 420) 
+		return "aries";
+	else if (datecode <= 520) 
+		return "taurus";
+	else if (datecode <= 621) 
+		return "gemini";
+	else if (datecode <= 722) 
+		return "cancer";
+	else if (datecode <= 822) 	                            
+		return "leo";
+	else if (datecode <= 921) 
+		return "virgo";
+	else if (datecode <= 1022) 
+		return "libra";
+	else if (datecode <= 1121) 
+		return "scorpio";
+	else if (datecode <= 1221) 
+		return "sagittarius";
+	else
+		return "capricorn";
+	
 }

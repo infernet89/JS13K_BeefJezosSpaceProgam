@@ -82,3 +82,12 @@ button {
   margin-left: 48%;
   margin-top: -5px;
 }
+
+#periodicTable {
+  width: 40%;
+  margin-left: 35%;
+  border: #500 solid 50px;
+}
+#periodicTable input{
+  transform: scale(1.5);
+}
