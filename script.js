@@ -1,9 +1,14 @@
-var maxLevel=4;//TODO DEBUG
+var maxLevel=6;//TODO DEBUG
 var secondsPassed=0;
 var level=0;
 var seatsLeft=9999;
 var phoneDigits=[];
 var cooldown=false;
+var loadingProgress=0;
+var dragging=false;
+var mousex,mousey,oldMousex,oldMousey;
+var animations=[];
+var currentLetter=0;
 //random character generation
 var names=["Michael","Christopher","Jessica","Matthew","Ashley","Jennifer","Joshua","Amanda","Daniel","David","James","Robert","John","Joseph","Andrew","Ryan","Brandon","Jason","Justin","Sarah","William","Jonathan","Stephanie","Brian","Nicole","Nicholas","Anthony","Heather","Eric","Elizabeth","Adam","Megan","Melissa","Kevin","Steven","Thomas","Timothy","Christina","Kyle","Rachel","Laura","Lauren","Amber","Brittany","Danielle","Richard","Kimberly","Jeffrey","Amy","Crystal","Michelle","Tiffany","Jeremy","Benjamin","Mark","Emily","Aaron","Charles","Rebecca","Jacob","Stephen","Patrick","Sean","Erin","Zachary","Jamie","Kelly","Samantha","Nathan","Sara","Dustin","Paul","Angela","Tyler","Scott","Katherine","Andrea","Gregory","Erica","Mary","Travis","Lisa","Kenneth","Bryan","Lindsey","Kristen","Jose","Alexander","Jesse","Katie","Lindsay","Shannon","Vanessa","Courtney","Christine","Alicia","Cody","Allison","Bradley","Samuel","Shawn","April","Derek","Kathryn","Kristin","Chad","Jenna","Tara","Maria","Krystal","Jared","Anna","Edward","Julie","Peter","Holly","Marcus","Kristina","Natalie","Jordan","Victoria","Jacqueline","Corey","Keith","Monica","Juan","Donald","Cassandra","Meghan","Joel","Shane","Phillip","Patricia","Brett","Ronald","Catherine","George","Antonio","Cynthia","Stacy","Kathleen","Raymond","Carlos","Brandi","Douglas","Nathaniel","Ian","Craig","Brandy","Alex","Valerie","Veronica","Cory","Whitney","Gary","Derrick","Philip","Luis","Diana","Chelsea","Leslie","Caitlin","Leah","Natasha","Erika","Casey","Latoya","Erik","Dana","Victor","Brent","Dominique","Frank","Brittney","Evan","Gabriel","Julia","Candice","Karen","Melanie","Adrian","Stacey","Margaret","Sheena","Wesley","Vincent","Alexandra","Katrina","Bethany","Nichole","Larry","Jeffery","Curtis","Carrie","Todd","Blake","Christian","Randy","Dennis","Alison","Trevor","Seth","Kara","Joanna","Rachael","Luke","Felicia","Brooke","Austin","Candace","Jasmine","Jesus","Alan","Susan","Sandra","Tracy","Kayla","Nancy","Tina","Krystle","Russell","Jeremiah","Carl","Miguel","Tony","Alexis","Gina","Jillian","Pamela","Mitchell","Hannah","Renee","Denise","Molly","Jerry","Misty","Mario","Johnathan","Jaclyn","Brenda","Terry","Lacey","Shaun","Devin","Heidi","Troy","Lucas","Desiree","Jorge","Andre","Morgan","Drew","Sabrina","Miranda","Alyssa","Alisha","Teresa","Johnny"];
 var name=names[Math.floor(Math.random()*names.length)];
@@ -45,18 +50,17 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	/*
+	
 	levelUp();
 	levelUp();
 	levelUp();
 	levelUp();
-	*/
+	levelUp();
+	//levelUp();
+	
 	/*TODO idee
-		- loading, ma lentissimo. Trascinarlo per velocizzare
 		- griglia di checkbox da accettare, ma un clic prende anche quelle vicine
 		- il pulsante next è coperto da un AD, andare offline per rimuoverlo
-		- Age (scorre velocemente, devi premere stop)
-		- Gender (Lettere a scorrimento in basso, devi scrivere Male/Female/Helicopter); 
 		- Maze da fare con il mouse per evitare di cancellare il form
 	*/
 }
@@ -135,6 +139,121 @@ function levelUp()
 		document.getElementById('mailDomain').addEventListener('keydown', function(e){ this.style="background-color: 'white';"; this.style.color='white';} );
 		document.getElementById('mailCountry').addEventListener('keydown', function(e){ this.style="background-color: 'white';"; this.style.color='white';} );
 	}
+	else if(level==5)
+	{
+		animations['loading']=setInterval(loading,100);
+		var canvas=document.getElementById("loadingScreen");
+		canvas.addEventListener("mousemove",mossoMouse);
+		canvas.addEventListener("mousedown",cliccatoMouse);
+		canvas.addEventListener("mouseup",rilasciatoMouse);
+	}
+	else if(level==6)
+	{
+		animations['age']=setInterval(progressAge,80);
+		animations['alphabet']=setInterval(progressLetters,200);
+	}
+}
+function progressAge()
+{
+	var currAge=document.getElementById("age").value*1;
+	if(currAge++>200)
+		currAge=1;
+	document.getElementById("age").value=currAge;
+}
+function progressLetters(insert)
+{
+	var alphabet="abcdefghijklmnopqrstuvwxyz";
+	if(insert)
+	{
+		document.getElementById('zodiacSign').value+=alphabet[currentLetter];
+		return;
+	}
+	if(++currentLetter>=alphabet.length)
+		currentLetter=0;
+	alphabet=alphabet.replace(alphabet[currentLetter],alphabet[currentLetter].toUpperCase());
+	document.getElementById('alphabet').innerHTML=alphabet;
+}
+function loading()
+{
+	loadingProgress+=0.0005;
+	if(loadingProgress>100)
+	{
+		loadingProgress=100;
+		clearInterval(animations['loading']);
+		levelUp();
+	}
+	canvas = document.getElementById("loadingScreen");
+	ctx = canvas.getContext("2d");
+	ctx.clearRect(0, 0, 400, 400);
+    ctx.fillStyle="#FFF";
+    ctx.textAlign = "center";
+    ctx.fillText("Loading: "+(Math.round(loadingProgress*100)/100),200,200);
+    ctx.strokeStyle="#FFF";
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+	ctx.arc(200,200,50,(loadingProgress*2)*Math.PI,(loadingProgress*2+1.7)*Math.PI);
+	ctx.stroke();
+	var dragFactor=0.01;
+	if(dragging)
+	{
+		dragFactor*=distanceFrom(mousex,mousey,oldMousex,oldMousey);
+		if(mousex<200 && mousey<200)
+		{
+			if(oldMousex<mousex && oldMousey>mousey)
+				loadingProgress+=dragFactor;
+			else if(oldMousex>mousex && oldMousey<mousey)
+				loadingProgress-=dragFactor;
+		}
+		else if(mousex>200 && mousey<200)
+		{
+			if(oldMousex<mousex && oldMousey<mousey)
+				loadingProgress+=dragFactor;
+			else if(oldMousex>mousex && oldMousey>mousey)
+				loadingProgress-=dragFactor;
+		}
+		else if(mousex>200 && mousey>200)
+		{
+			if(oldMousex>mousex && oldMousey<mousey)
+				loadingProgress+=dragFactor;
+			else if(oldMousex<mousex && oldMousey>mousey)
+				loadingProgress-=dragFactor;
+		}
+		else if(mousex<200 && mousey>200)
+		{
+			if(oldMousex>mousex && oldMousey>mousey)
+				loadingProgress+=dragFactor;
+			else if(oldMousex<mousex && oldMousey<mousey)
+				loadingProgress-=dragFactor;
+		}
+		oldMousex=mousex;
+		oldMousey=mousey;
+	}
+}
+function cliccatoMouse(evt)
+{
+    dragging=true;
+    var rect = document.getElementById("loadingScreen").getBoundingClientRect();
+    mousex=(evt.clientX-rect.left)/(rect.right-rect.left)*400;
+    mousey=(evt.clientY-rect.top)/(rect.bottom-rect.top)*400;
+}
+function mossoMouse(evt)
+{
+    var rect = document.getElementById("loadingScreen").getBoundingClientRect();
+    mousex=(evt.clientX-rect.left)/(rect.right-rect.left)*400;
+    mousey=(evt.clientY-rect.top)/(rect.bottom-rect.top)*400;
+    if(distanceFrom(mousex,mousey,200,200)<60)
+    	document.getElementById('loadingScreen').style.cursor = "pointer";
+    else 
+    	document.getElementById('loadingScreen').style.cursor = "default";
+}
+function rilasciatoMouse(evt)
+{
+    dragging=false;    
+}
+function distanceFrom(ax,ay,bx,by)
+{
+    return Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by));
 }
 function animate()
 {
