@@ -52,18 +52,13 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	
+	/*
 	levelUp();
 	levelUp();
 	levelUp();
 	levelUp();
 	levelUp();
 	levelUp();
-	
-	/*TODO idee
-		- griglia di checkbox da accettare, ma un clic prende anche quelle vicine
-		- il pulsante next è coperto da un AD, andare offline per rimuoverlo
-		- Maze da fare con il mouse per evitare di cancellare il form
 	*/
 }
 function levelUp()
@@ -84,6 +79,8 @@ function levelUp()
 		document.getElementById('birthDay').addEventListener('keydown', function(e){ e.preventDefault(); return false;});
 		//mese
 		document.getElementById('birthMonth').addEventListener('keydown', function(e){ if(e.keyCode<58 && e.keyCode>47){e.preventDefault(); return false;}});
+		//mostra i bottoni
+		document.getElementById('progressButtons').style.display='block';
 	}
 	else if(level==2)
 	{
@@ -310,9 +307,6 @@ function distanceFrom(ax,ay,bx,by)
 function animate()
 {
 	secondsPassed++;
-	document.getElementById("currentLevel").innerHTML=level+"/"+maxLevel;
-	document.getElementById("currentMinutes").innerHTML=Math.floor(secondsPassed/60);
-	document.getElementById("currentSeconds").innerHTML=((secondsPassed%60<10)?"0":"")+secondsPassed%60;
 	document.getElementById("seatsLeft").innerHTML=Math.floor(seatsLeft-=(10*Math.random()));
 }
 //a seconda del livello, pulisci il form //TODO

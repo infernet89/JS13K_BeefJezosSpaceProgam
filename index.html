@@ -48,12 +48,6 @@
 			</select>
 			<input type='number' id='birthDay' autocomplete='off' min='0' max='31' placeholder='Day' />
 			<input type='text' id='birthMonth' autocomplete='off' size="2" placeholder='Month' />
-			<br>
-			<br>
-			<br>
-			<br>
-			<button onclick='cancel()' class='cancelButton'>Cancel</button>
-			<button onclick='submit()' class='submitButton'>Next</button>
 		</div>
 		<div id='level2'>
 			<label>Country:</label>
@@ -80,13 +74,6 @@
 			<button class='smallButton' onclick="binaryEdit('zipCode','-')">-</button> 
 			<button class='smallButton' onclick="binaryEdit('zipCode','R')">R</button> 
 			<br>
-
-			<br>
-			<br>
-			<br>
-			<br>
-			<button onclick='cancel()' class='cancelButton'>Cancel</button>
-			<button onclick='submit()' class='submitButton'>Next</button>
 		</div>
 		<div id='level3'>
 			<label>Username:</label>
@@ -149,12 +136,6 @@
 			<input type='checkbox' id='agreement2' autocomplete='off'/> Agree to let my information be used for space reason <br>
 			<input type='checkbox' id='agreement3' autocomplete='off'/> Agree to be unable to pass to the next form <br>
 			<input type='checkbox' id='agreement4' autocomplete='off'/> Agree to this only if minutes are odd <br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<button onclick='cancel()' class='cancelButton'>Cancel</button>
-			<button onclick='submit()' class='submitButton'>Next</button>
 		</div>
 		<div id='level5'>
 			<canvas id='loadingScreen' height='400' width='400'>
@@ -188,6 +169,9 @@
 			<div id='periodicTable'>
 			</div>
 			<br>
+		</div>
+		<!-- bottoni per continuare -->
+		<div id='progressButtons' style='display:none;'>
 			<br>
 			<br>
 			<br>
@@ -195,11 +179,7 @@
 			<button onclick='cancel()' class='cancelButton'>Cancel</button>
 			<button onclick='submit()' class='submitButton'>Next</button>
 		</div>
-		<!-- UI -->
-		<div id='progressBox'>
-			<span id='currentLevel'></span><br>
-			<span id='currentMinutes'></span>:<span id='currentSeconds'></span>
-		</div>
+
 	</section>
 
 	<footer>
