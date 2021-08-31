@@ -1,4 +1,4 @@
-var maxLevel=6;//TODO DEBUG
+var maxLevel=12;//TODO DEBUG
 var secondsPassed=0;
 var level=0;
 var seatsLeft=9999;
@@ -38,7 +38,7 @@ function pageLoaded()
 	for(i=level+1;i<=maxLevel;i++)
 		document.getElementById("level"+i).style="display: none";
 	document.getElementById("personalInfo").addEventListener("contextmenu", function(evt){ evt.preventDefault(); }, false);
-	document.getElementById("personalInfo").addEventListener("copy", function(evt){ evt.clipboardData.setData("text/plain", "SPAAAAAACE!");evt.preventDefault();}, false);
+	document.addEventListener("copy", function(evt){ evt.clipboardData.setData("text/plain", "SPAAAAAACE!");evt.preventDefault();}, false);
 	setInterval(animate,1000);
 	//fill info
 	document.getElementById("infoName").innerHTML=name;
@@ -65,6 +65,8 @@ function levelUp()
 {
 	document.getElementById("level"+level++).style="display: none";
 	document.getElementById("level"+level).style="display: block";
+	//mostra i bottoni
+	document.getElementById('progressButtons').style.display='block';
 	if(level==1)
 	{
 		//anno
@@ -79,10 +81,17 @@ function levelUp()
 		document.getElementById('birthDay').addEventListener('keydown', function(e){ e.preventDefault(); return false;});
 		//mese
 		document.getElementById('birthMonth').addEventListener('keydown', function(e){ if(e.keyCode<58 && e.keyCode>47){e.preventDefault(); return false;}});
-		//mostra i bottoni
-		document.getElementById('progressButtons').style.display='block';
 	}
 	else if(level==2)
+	{
+		animations['loading']=setInterval(loading,30);
+		var canvas=document.getElementById("loadingScreen1");
+		canvas.addEventListener("mousemove",mossoMouse);
+		canvas.addEventListener("mousedown",cliccatoMouse);
+		canvas.addEventListener("mouseup",rilasciatoMouse);
+		document.getElementById('progressButtons').style.display='none';
+	}
+	else if(level==3)
 	{
 		//country
 		for(i=0;i<countries.length;i++)
@@ -108,7 +117,16 @@ function levelUp()
 		    document.getElementById("city1").appendChild(opt);
 		}
 	}
-	else if(level==3)
+	else if(level==4)
+	{
+		animations['loading']=setInterval(loading,30);
+		var canvas=document.getElementById("loadingScreen2");
+		canvas.addEventListener("mousemove",mossoMouse);
+		canvas.addEventListener("mousedown",cliccatoMouse);
+		canvas.addEventListener("mouseup",rilasciatoMouse);
+		document.getElementById('progressButtons').style.display='none';
+	}
+	else if(level==5)
 	{
 		document.getElementById("confirmPasswordBox").style.display= "none";
 		document.getElementById("submitPasswordButton").addEventListener("mouseover", function(evt){ document.getElementById("confirmPasswordBox").style.display="block"; });
@@ -116,8 +134,19 @@ function levelUp()
 		document.getElementById('chosenUsername').addEventListener('keyup',liveLoginCheck);
 		document.getElementById('chosenUsername').addEventListener('keydown', function(e){ if(e.keyCode!=8 && e.keyCode!=46 && (e.keyCode<65 || e.keyCode>90)){e.preventDefault(); return false;}});
 		document.getElementById('chosenPassword').addEventListener('keyup',liveLoginCheck);
+		//nascondi i bottoni (per mostrare quelli finti)
+		document.getElementById('progressButtons').style.display='none';
 	}
-	else if(level==4)
+	else if(level==6)
+	{
+		animations['loading']=setInterval(loading,30);
+		var canvas=document.getElementById("loadingScreen3");
+		canvas.addEventListener("mousemove",mossoMouse);
+		canvas.addEventListener("mousedown",cliccatoMouse);
+		canvas.addEventListener("mouseup",rilasciatoMouse);
+		document.getElementById('progressButtons').style.display='none';
+	}
+	else if(level==7)
 	{
 		//phoneDigits
 		for(i=0;i<10;i++)
@@ -138,15 +167,16 @@ function levelUp()
 		document.getElementById('mailDomain').addEventListener('keydown', function(e){ this.style="background-color: 'white';"; this.style.color='white';} );
 		document.getElementById('mailCountry').addEventListener('keydown', function(e){ this.style="background-color: 'white';"; this.style.color='white';} );
 	}
-	else if(level==5)
+	else if(level==8)
 	{
 		animations['loading']=setInterval(loading,30);
-		var canvas=document.getElementById("loadingScreen");
+		var canvas=document.getElementById("loadingScreen4");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
 		canvas.addEventListener("mouseup",rilasciatoMouse);
+		document.getElementById('progressButtons').style.display='none';
 	}
-	else if(level==6)
+	else if(level==9)
 	{
 		animations['age']=setInterval(progressAge,80);
 		animations['alphabet']=setInterval(progressLetters,200);
@@ -161,6 +191,24 @@ function levelUp()
 		document.getElementById('level6').addEventListener("mousemove",mossoMouse);
 		document.getElementById("level6").addEventListener("contextmenu", sparitoMouse);
 		document.addEventListener("blur",sparitoMouse);
+	}
+	else if(level==10)
+	{//loading con AD
+		animations['loading']=setInterval(loading,30);
+		var canvas=document.getElementById("loadingScreen5");
+		canvas.addEventListener("mousemove",mossoMouse);
+		canvas.addEventListener("mousedown",cliccatoMouse);
+		canvas.addEventListener("mouseup",rilasciatoMouse);
+		document.getElementById('progressButtons').style.display='none';
+	}
+	else if(level==11)
+	{
+		//chiedi username e password precedentemente inserite
+	}
+	else if(level==12)
+	{
+		//TODO ending
+		document.getElementById('progressButtons').style.display='none';
 	}
 }
 function progressAge()
@@ -185,19 +233,24 @@ function progressLetters(insert)
 }
 function loading()
 {
+	if(level%2)
+	{
+		clearInterval(animations['loading']);
+		return;
+	}
+	canvas = document.getElementById("loadingScreen"+(level/2));
 	loadingProgress+=0.0005;
 	if(loadingProgress>100)
 	{
 		loadingProgress=100;
 		clearInterval(animations['loading']);
-		levelUp();
+		document.getElementById('progressButtons').style.display='block';
 	}
-	canvas = document.getElementById("loadingScreen");
 	ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, 400, 400);
     ctx.fillStyle="#FFF";
     ctx.textAlign = "center";
-    ctx.fillText("Loading: "+(Math.round(loadingProgress*100)/100),200,200);
+    ctx.fillText("Loading: "+(Math.round(loadingProgress*100)/100)+"%",200,200);
     ctx.strokeStyle="#FFF";
     ctx.lineWidth = 5;
     ctx.lineCap = 'round';
@@ -325,7 +378,7 @@ function cancel()
 		document.getElementById('birthMonth').value="";
 		document.getElementById('birthMonth').style="background-color: white";
 	}
-	else if(level==2)
+	else if(level==3)
 	{
 		document.getElementById("country").selectedIndex="";
 		document.getElementById("country").style="background-color: white";
@@ -337,7 +390,7 @@ function cancel()
 		binaryEdit('zipCode','R');
 		document.getElementById("zipCode").style="background-color: white";
 	}
-	else if(level==3)
+	else if(level==5)
 	{
 		document.getElementById('chosenUsername').value="";
 		document.getElementById('chosenUsername').style="background-color: white";
@@ -353,7 +406,7 @@ function cancel()
 		document.getElementById('passwordUsernameCharacters').style="color: white";
 		document.getElementById('passwordForbiddenCharacters').style="color: white";
 	}
-	else if(level==4)
+	else if(level==7)
 	{
 		document.getElementById('phone').value="";
 		document.getElementById('phone').style="background-color: white";
@@ -370,7 +423,7 @@ function cancel()
 		document.getElementById('agreement3').checked = false;
 		document.getElementById('agreement4').checked = false;
 	}
-	else if(level==6)
+	else if(level==9)
 	{
 		document.getElementById('age').value="0";
 		document.getElementById('age').style="background-color: white";
@@ -392,7 +445,7 @@ function submit()
 		nErrors+=checkElement('birthMonth',birthMonthString);
 		nErrors+=checkElement('birthYear',birthYear);
 	}
-	else if(level==2)
+	else if(level==3)
 	{
 		nErrors+=checkElement('country',country);
 		for(j=1;j<=5;j++)
@@ -401,12 +454,12 @@ function submit()
 		}
 		nErrors+=checkElement('zipCode',zipCode);
 	}
-	else if(level==3)
+	else if(level==5)
 	{
 		nErrors+=liveLoginCheck();
 		nErrors+=checkElement('passwordConfirm',document.getElementById("chosenPassword").value);
 	}
-	else if(level==4)
+	else if(level==8)
 	{
 		nErrors+=checkElement('phone',phone);
 		nErrors+=checkElement('mailName',emailName);
@@ -422,14 +475,18 @@ function submit()
 		if(document.getElementById('agreement4').checked === evenMinutes)
 			nErrors++;
 	}
-	else if(level==6)
+	else if(level==9)
 	{
 		nErrors+=checkElement('age',age);
 		nErrors+=checkElement('zodiacSign',zodiacSign);
 		for(i=0;i<118;i++)
 			if(!document.getElementById("element"+i).checked)
 				nErrors++;
-				
+	}
+	//loading screens
+	else if(level%2==0)
+	{
+		nErrors=0;
 	}
 	if(!nErrors)
 		levelUp();

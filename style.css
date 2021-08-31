@@ -33,9 +33,9 @@ footer {
  bottom:5px;
  width:99%;
  height:10px;
- color: #FFF;
- font-size: 10px;
- text-align: center;
+ color: #CCC;
+ font-size: 7px;
+ text-align: left;
 }
 label {
   display: block;
