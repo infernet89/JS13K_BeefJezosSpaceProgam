@@ -32,6 +32,8 @@ var emailName=(name.toLowerCase())+"."+(surname.toLowerCase());
 var emailDomain=(city.toLowerCase().substring(0,5));
 var emailCountry=(country.toLowerCase().substring(0,2));
 var email=emailName+"@"+emailDomain+"."+emailCountry;
+var username="asd";
+var password="asd";
 
 function pageLoaded()
 {
@@ -52,14 +54,8 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	/*
-	levelUp();
-	levelUp();
-	levelUp();
-	levelUp();
-	levelUp();
-	levelUp();
-	*/
+	for(l=0;l<1;l++)
+		levelUp();
 }
 function levelUp()
 {
@@ -85,6 +81,7 @@ function levelUp()
 	else if(level==2)
 	{
 		animations['loading']=setInterval(loading,30);
+		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen1");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -120,6 +117,7 @@ function levelUp()
 	else if(level==4)
 	{
 		animations['loading']=setInterval(loading,30);
+		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen2");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -130,7 +128,7 @@ function levelUp()
 	{
 		document.getElementById("confirmPasswordBox").style.display= "none";
 		document.getElementById("submitPasswordButton").addEventListener("mouseover", function(evt){ document.getElementById("confirmPasswordBox").style.display="block"; });
-		document.getElementById("level3").addEventListener('paste', (event) => {event.preventDefault();	});
+		document.getElementById("level5").addEventListener('paste', (event) => {event.preventDefault();	});
 		document.getElementById('chosenUsername').addEventListener('keyup',liveLoginCheck);
 		document.getElementById('chosenUsername').addEventListener('keydown', function(e){ if(e.keyCode!=8 && e.keyCode!=46 && (e.keyCode<65 || e.keyCode>90)){e.preventDefault(); return false;}});
 		document.getElementById('chosenPassword').addEventListener('keyup',liveLoginCheck);
@@ -140,6 +138,7 @@ function levelUp()
 	else if(level==6)
 	{
 		animations['loading']=setInterval(loading,30);
+		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen3");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -170,6 +169,7 @@ function levelUp()
 	else if(level==8)
 	{
 		animations['loading']=setInterval(loading,30);
+		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen4");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -181,20 +181,23 @@ function levelUp()
 		animations['age']=setInterval(progressAge,80);
 		animations['alphabet']=setInterval(progressLetters,200);
 		//fill periodic table
-		var elements=["H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th","Pa","U","Np","Pu","Am","Cm","Bk","Cf","Es","Fm","Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds","Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"];
+		var elements=["H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd"];
 		for(i=0;i<elements.length;i++)
 		{
 			document.getElementById('periodicTable').innerHTML+="<input onmouseover='this.checked=!this.checked' type='checkbox' id='element"+i+"' />"+elements[i]+"";
-			if((i+1)%15==0)
+			if((i+1)%12==0)
 				document.getElementById('periodicTable').innerHTML+="<br>";
 		}
-		document.getElementById('level6').addEventListener("mousemove",mossoMouse);
-		document.getElementById("level6").addEventListener("contextmenu", sparitoMouse);
-		document.addEventListener("blur",sparitoMouse);
+		document.getElementById('level9').addEventListener('keydown', function(e){ if(e.keyCode==9){e.preventDefault(); return false;}});
+		document.getElementById('level9').addEventListener("mousemove",mossoMouse);
+		document.getElementById("level9").addEventListener("contextmenu", sparitoMouse);
+		window.addEventListener("blur",sparitoMouse);
 	}
 	else if(level==10)
-	{//loading con AD
+	{
+		//loading con AD
 		animations['loading']=setInterval(loading,30);
+		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen5");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -203,7 +206,7 @@ function levelUp()
 	}
 	else if(level==11)
 	{
-		//chiedi username e password precedentemente inserite
+		document.getElementById('progressButtons').style.display='none';
 	}
 	else if(level==12)
 	{
@@ -248,49 +251,66 @@ function loading()
 	}
 	ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, 400, 400);
-    ctx.fillStyle="#FFF";
-    ctx.textAlign = "center";
-    ctx.fillText("Loading: "+(Math.round(loadingProgress*100)/100)+"%",200,200);
-    ctx.strokeStyle="#FFF";
-    ctx.lineWidth = 5;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-	ctx.arc(200,200,50,(loadingProgress*2)*Math.PI,(loadingProgress*2+1.7)*Math.PI);
-	ctx.stroke();
-	var dragFactor=0.01;
-	if(dragging)
+	if(level==2)
 	{
-		dragFactor*=distanceFrom(mousex,mousey,oldMousex,oldMousey);
-		if(mousex<200 && mousey<200)
+		loadingProgress+=0.9995;
+		ctx.fillStyle="#FFF";
+	    ctx.textAlign = "center";
+	    ctx.font = "40px San Serif";
+	    ctx.fillText("LOADING...",200,200);
+	    ctx.fillText((Math.floor(loadingProgress))+"%",200,250);
+	    ctx.fillRect(10,320,380,40);
+	    ctx.fillStyle="#000";
+	    ctx.fillRect(12+376*(loadingProgress/101),322,376*(1-loadingProgress/101),36);
+	}
+	//cerchio da girare clockwise
+	else if(level==4)
+	{
+		ctx.fillStyle="#FFF";
+	    ctx.textAlign = "center";
+	    ctx.font = "30px San Serif";
+	    ctx.fillText("Loading: "+(Math.round(loadingProgress*100)/100)+"%",200,200);
+	    ctx.strokeStyle="#FFF";
+	    ctx.lineWidth = 35;
+	    ctx.lineCap = 'round';
+	    ctx.beginPath();
+		ctx.arc(200,200,150,(loadingProgress*0.4)*Math.PI,(loadingProgress*0.4+1.7)*Math.PI);
+		ctx.stroke();
+		var dragFactor=0.01;
+		if(dragging)
 		{
-			if(oldMousex<mousex && oldMousey>mousey)
-				loadingProgress+=dragFactor;
-			else if(oldMousex>mousex && oldMousey<mousey)
-				loadingProgress-=dragFactor;
+			dragFactor*=distanceFrom(mousex,mousey,oldMousex,oldMousey);
+			if(mousex<200 && mousey<200)
+			{
+				if(oldMousex<mousex && oldMousey>mousey)
+					loadingProgress+=dragFactor;
+				else if(oldMousex>mousex && oldMousey<mousey)
+					loadingProgress-=dragFactor;
+			}
+			else if(mousex>200 && mousey<200)
+			{
+				if(oldMousex<mousex && oldMousey<mousey)
+					loadingProgress+=dragFactor;
+				else if(oldMousex>mousex && oldMousey>mousey)
+					loadingProgress-=dragFactor;
+			}
+			else if(mousex>200 && mousey>200)
+			{
+				if(oldMousex>mousex && oldMousey<mousey)
+					loadingProgress+=dragFactor;
+				else if(oldMousex<mousex && oldMousey>mousey)
+					loadingProgress-=dragFactor;
+			}
+			else if(mousex<200 && mousey>200)
+			{
+				if(oldMousex>mousex && oldMousey>mousey)
+					loadingProgress+=dragFactor;
+				else if(oldMousex<mousex && oldMousey<mousey)
+					loadingProgress-=dragFactor;
+			}
+			oldMousex=mousex;
+			oldMousey=mousey;
 		}
-		else if(mousex>200 && mousey<200)
-		{
-			if(oldMousex<mousex && oldMousey<mousey)
-				loadingProgress+=dragFactor;
-			else if(oldMousex>mousex && oldMousey>mousey)
-				loadingProgress-=dragFactor;
-		}
-		else if(mousex>200 && mousey>200)
-		{
-			if(oldMousex>mousex && oldMousey<mousey)
-				loadingProgress+=dragFactor;
-			else if(oldMousex<mousex && oldMousey>mousey)
-				loadingProgress-=dragFactor;
-		}
-		else if(mousex<200 && mousey>200)
-		{
-			if(oldMousex>mousex && oldMousey>mousey)
-				loadingProgress+=dragFactor;
-			else if(oldMousex<mousex && oldMousey<mousey)
-				loadingProgress-=dragFactor;
-		}
-		oldMousex=mousex;
-		oldMousey=mousey;
 	}
 }
 function cliccatoMouse(evt)
@@ -305,14 +325,14 @@ function mossoMouse(evt)
     var rect = this.getBoundingClientRect();
     mousex=(evt.clientX-rect.left)/(rect.right-rect.left)*rect.width;
     mousey=(evt.clientY-rect.top)/(rect.bottom-rect.top)*rect.height;
-    if(level==5)
+    if(level==4)
     {
-    	if(distanceFrom(mousex,mousey,200,200)<60)
-    		document.getElementById('loadingScreen').style.cursor = "pointer";
+    	if(distanceFrom(mousex,mousey,200,200)<160)
+    		document.getElementById('loadingScreen2').style.cursor = "pointer";
 	    else 
-	    	document.getElementById('loadingScreen').style.cursor = "default";
+	    	document.getElementById('loadingScreen2').style.cursor = "default";
     }
-    else if(level==6)
+    else if(level==9)
     {
     	mousex+=rect.left;
     	mousey+=rect.top;
@@ -322,12 +342,14 @@ function mossoMouse(evt)
     	for(i=0;i<10;i++)
 	    	if(onPeriodicTableBorder(mousex-diffx*i/10,mousey-diffy*i/10))
 	    	{
-	    		for(j=0;j<118;j++)
+	    		for(j=0;j<60;j++)
 	    			document.getElementById('element'+j).checked=false;
 	    		i=10;
 	    	}    		
 		oldMousex=mousex;
     	oldMousey=mousey;
+    	clearInterval(animations['idling']);
+    	animations['idling']=setTimeout(function() {oldMousex=oldMousey=mousex=mousey=-1;},800);
     }
 }
 function sparitoMouse(evt)
@@ -429,8 +451,15 @@ function cancel()
 		document.getElementById('age').style="background-color: white";
 		document.getElementById('zodiacSign').value="";
 		document.getElementById('zodiacSign').style="background-color: white";
-		for(i=0;i<118;i++)
+		for(i=0;i<60;i++)
 			document.getElementById("element"+i).checked=false;			
+	}
+	else if(level==11)
+	{
+		document.getElementById('username').value="";
+		document.getElementById('username').style="background-color: white";
+		document.getElementById('password').value="";
+		document.getElementById('password').style="background-color: white";
 	}
 }
 //a seconda del livello, controlla che i dati inseriti siano corretti //TODO
@@ -459,7 +488,7 @@ function submit()
 		nErrors+=liveLoginCheck();
 		nErrors+=checkElement('passwordConfirm',document.getElementById("chosenPassword").value);
 	}
-	else if(level==8)
+	else if(level==7)
 	{
 		nErrors+=checkElement('phone',phone);
 		nErrors+=checkElement('mailName',emailName);
@@ -479,9 +508,14 @@ function submit()
 	{
 		nErrors+=checkElement('age',age);
 		nErrors+=checkElement('zodiacSign',zodiacSign);
-		for(i=0;i<118;i++)
+		for(i=0;i<60;i++)
 			if(!document.getElementById("element"+i).checked)
 				nErrors++;
+	}
+	else if(level==11)
+	{
+		nErrors+=checkElement('username',username);
+		nErrors+=checkElement('password',password);
 	}
 	//loading screens
 	else if(level%2==0)
@@ -557,8 +591,8 @@ function liveLoginCheck()
 	near["n"]="nbghjm";
 	near["m"]="mnhjk";
 
-	var username=document.getElementById("chosenUsername").value.toLowerCase();
-	var password=document.getElementById("chosenPassword").value;
+	username=document.getElementById("chosenUsername").value.toLowerCase();
+	password=document.getElementById("chosenPassword").value;
 	if(username.length<10)
 	{
 		document.getElementById('usernameLength').style.color="red";
