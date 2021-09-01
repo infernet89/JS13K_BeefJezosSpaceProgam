@@ -35,6 +35,7 @@ var email=emailName+"@"+emailDomain+"."+emailCountry;
 var username="asd";
 var password="asd";
 var targetLoadingEnd=new Date();
+targetLoadingEnd.setHours(targetLoadingEnd.getHours()+12);
 
 function pageLoaded()
 {
@@ -55,7 +56,7 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	for(l=0;l<8;l++)
+	for(l=0;l<10;l++)
 		levelUp();
 }
 function levelUp()
@@ -171,7 +172,6 @@ function levelUp()
 	{
 		animations['loading']=setInterval(loading,30);
 		loadingProgress=0;
-		targetLoadingEnd.setHours(targetLoadingEnd.getHours()+12);
 		var canvas=document.getElementById("loadingScreen4");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -254,7 +254,7 @@ function loading()
 	}
 	ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, 400, 400);
-	if(level==2 || level==6 || level==10)//TODO DEBUG
+	if(level==2 || level==6)//TODO DEBUG
 	{
 		loadingProgress+=0.9995;
 		ctx.fillStyle="#FFF";
@@ -265,6 +265,24 @@ function loading()
 	    ctx.fillRect(10,320,380,40);
 	    ctx.fillStyle="#000";
 	    ctx.fillRect(12+376*(loadingProgress/101),322,376*(1-loadingProgress/101),36);
+	}
+	//go offline
+	else if(level==10)
+	{
+		if((loadingProgress+=2.9995) > 100)
+		{
+			loadingProgress=100;
+			if(navigator.onLine)
+				document.getElementById('modalAD').style.display='block';
+		}			
+		ctx.fillStyle="#FFF";
+	    ctx.textAlign = "center";
+	    ctx.font = "30px San Serif";
+	    ctx.fillText("LOADING THE NEXT AD...",200,200);
+	    ctx.fillText((Math.floor(loadingProgress))+"%",200,250);
+	    ctx.fillRect(10,320,380,40);
+	    ctx.fillStyle="#000";
+	    ctx.fillRect(12+376*(loadingProgress/101),322,376*(1-loadingProgress/100),36);
 	}
 	//cambia la data
 	else if(level==8)
@@ -335,6 +353,12 @@ function loading()
 			oldMousey=mousey;
 		}
 	}
+}
+function closeAd()
+{
+	document.getElementById('modalAD').style.display='none';
+	loadingProgress=0;
+	document.getElementById('progressButtons').style.display='none';
 }
 function cliccatoMouse(evt)
 {
@@ -547,6 +571,14 @@ function submit()
 				nErrors++;
 			}
 			else document.getElementById("label_element"+i).style="color: white;";
+	}
+	else if(level==10)
+	{
+		if(navigator.onLine)
+		{
+			console.log("Nice try!");
+			nErrors++;
+		}			
 	}
 	else if(level==11)
 	{
