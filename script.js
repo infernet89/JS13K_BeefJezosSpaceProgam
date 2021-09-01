@@ -34,6 +34,7 @@ var emailCountry=(country.toLowerCase().substring(0,2));
 var email=emailName+"@"+emailDomain+"."+emailCountry;
 var username="asd";
 var password="asd";
+var targetLoadingEnd=new Date();
 
 function pageLoaded()
 {
@@ -54,7 +55,7 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	for(l=0;l<1;l++)
+	for(l=0;l<8;l++)
 		levelUp();
 }
 function levelUp()
@@ -170,6 +171,7 @@ function levelUp()
 	{
 		animations['loading']=setInterval(loading,30);
 		loadingProgress=0;
+		targetLoadingEnd.setHours(targetLoadingEnd.getHours()+12);
 		var canvas=document.getElementById("loadingScreen4");
 		canvas.addEventListener("mousemove",mossoMouse);
 		canvas.addEventListener("mousedown",cliccatoMouse);
@@ -184,7 +186,7 @@ function levelUp()
 		var elements=["H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd"];
 		for(i=0;i<elements.length;i++)
 		{
-			document.getElementById('periodicTable').innerHTML+="<input onmouseover='this.checked=!this.checked' type='checkbox' id='element"+i+"' />"+elements[i]+"";
+			document.getElementById('periodicTable').innerHTML+="<input onmouseover='this.checked=!this.checked' type='checkbox' id='element"+i+"' /><span id='label_element"+i+"'>"+elements[i]+"</span>";
 			if((i+1)%12==0)
 				document.getElementById('periodicTable').innerHTML+="<br>";
 		}
@@ -192,6 +194,7 @@ function levelUp()
 		document.getElementById('level9').addEventListener("mousemove",mossoMouse);
 		document.getElementById("level9").addEventListener("contextmenu", sparitoMouse);
 		window.addEventListener("blur",sparitoMouse);
+		document.getElementById('progressButtons').style.display='none';
 	}
 	else if(level==10)
 	{
@@ -251,7 +254,7 @@ function loading()
 	}
 	ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, 400, 400);
-	if(level==2)
+	if(level==2 || level==6 || level==10)//TODO DEBUG
 	{
 		loadingProgress+=0.9995;
 		ctx.fillStyle="#FFF";
@@ -260,6 +263,26 @@ function loading()
 	    ctx.fillText("LOADING...",200,200);
 	    ctx.fillText((Math.floor(loadingProgress))+"%",200,250);
 	    ctx.fillRect(10,320,380,40);
+	    ctx.fillStyle="#000";
+	    ctx.fillRect(12+376*(loadingProgress/101),322,376*(1-loadingProgress/101),36);
+	}
+	//cambia la data
+	else if(level==8)
+	{
+		var diff=(targetLoadingEnd - new Date()) / 1000;
+		var h=Math.floor(diff/(60*60));
+		var m=Math.floor(diff/(60))-h*60;
+		var s=Math.floor(diff-m*60-h*60*60);
+		loadingProgress=100-100*diff/(12*60*60);
+		ctx.fillStyle="#FFF";
+	    ctx.textAlign = "center";
+	    ctx.font = "40px San Serif";
+	    ctx.fillText("LOADING...",200,200);
+	    ctx.fillText((Math.round(loadingProgress*100)/100)+"%",200,250);
+	    ctx.fillRect(10,320,380,40);
+	    ctx.font = "20px San Serif";
+	    ctx.textAlign = "left";
+	    ctx.fillText("Elapsed: "+h+"h, "+m+"m and "+s+"s",20,390);
 	    ctx.fillStyle="#000";
 	    ctx.fillRect(12+376*(loadingProgress/101),322,376*(1-loadingProgress/101),36);
 	}
@@ -452,7 +475,10 @@ function cancel()
 		document.getElementById('zodiacSign').value="";
 		document.getElementById('zodiacSign').style="background-color: white";
 		for(i=0;i<60;i++)
-			document.getElementById("element"+i).checked=false;			
+		{
+			document.getElementById("element"+i).checked=false;
+			document.getElementById("label_element"+i).style="color: white;";
+		}
 	}
 	else if(level==11)
 	{
@@ -501,8 +527,14 @@ function submit()
 		if(document.getElementById('agreement3').checked)
 			nErrors++;
 		var evenMinutes=(new Date().getMinutes()%2==0);
-		if(document.getElementById('agreement4').checked === evenMinutes)
+		if(document.getElementById('agreement4').checked && evenMinutes)
+		{
 			nErrors++;
+		}
+		else if(!document.getElementById('agreement4').checked && !evenMinutes)
+		{
+			nErrors++;
+		}
 	}
 	else if(level==9)
 	{
@@ -510,7 +542,11 @@ function submit()
 		nErrors+=checkElement('zodiacSign',zodiacSign);
 		for(i=0;i<60;i++)
 			if(!document.getElementById("element"+i).checked)
+			{
+				document.getElementById("label_element"+i).style="color: red;";
 				nErrors++;
+			}
+			else document.getElementById("label_element"+i).style="color: white;";
 	}
 	else if(level==11)
 	{
