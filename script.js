@@ -56,7 +56,7 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	for(l=0;l<10;l++)
+	for(l=0;l<0;l++)
 		levelUp();
 }
 function levelUp()
@@ -86,7 +86,6 @@ function levelUp()
 		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen1");
 		canvas.addEventListener("mousemove",mossoMouse);
-		canvas.addEventListener("mousedown",cliccatoMouse);
 		canvas.addEventListener("mouseup",rilasciatoMouse);
 		document.getElementById('progressButtons').style.display='none';
 	}
@@ -143,7 +142,6 @@ function levelUp()
 		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen3");
 		canvas.addEventListener("mousemove",mossoMouse);
-		canvas.addEventListener("mousedown",cliccatoMouse);
 		canvas.addEventListener("mouseup",rilasciatoMouse);
 		document.getElementById('progressButtons').style.display='none';
 	}
@@ -174,7 +172,6 @@ function levelUp()
 		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen4");
 		canvas.addEventListener("mousemove",mossoMouse);
-		canvas.addEventListener("mousedown",cliccatoMouse);
 		canvas.addEventListener("mouseup",rilasciatoMouse);
 		document.getElementById('progressButtons').style.display='none';
 	}
@@ -203,7 +200,6 @@ function levelUp()
 		loadingProgress=0;
 		var canvas=document.getElementById("loadingScreen5");
 		canvas.addEventListener("mousemove",mossoMouse);
-		canvas.addEventListener("mousedown",cliccatoMouse);
 		canvas.addEventListener("mouseup",rilasciatoMouse);
 		document.getElementById('progressButtons').style.display='none';
 	}
@@ -358,12 +354,13 @@ function closeAd()
 {
 	document.getElementById('modalAD').style.display='none';
 	loadingProgress=0;
+	animations['loading']=setInterval(loading,30);
 	document.getElementById('progressButtons').style.display='none';
 }
 function cliccatoMouse(evt)
 {
     dragging=true;
-    var rect = document.getElementById("loadingScreen").getBoundingClientRect();
+    var rect = document.getElementById("loadingScreen2").getBoundingClientRect();
     mousex=(evt.clientX-rect.left)/(rect.right-rect.left)*400;
     mousey=(evt.clientY-rect.top)/(rect.bottom-rect.top)*400;
 }
