@@ -56,7 +56,7 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//TODO DEBUG
-	for(l=0;l<0;l++)
+	for(l=0;l<11;l++)
 		levelUp();
 }
 function levelUp()
