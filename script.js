@@ -68,7 +68,7 @@ function pageLoaded()
 		var y=rand(-150,2000);
 	    style+=""+x+"px "+y+"px #FFF, ";
 	}
-	//TODO gestisci il separatore finale
+	//TODO gestisci il separatore finale (togli l'ultima virgola spazio, o gli ultimi due caratteri)
 	var x=rand(0,window.innerWidth);
 	var y=rand(-150,2000);
 	style+=x+"px "+y+"px #FFF; animation: animStar "+50*size+"s linear infinite;";
@@ -226,7 +226,7 @@ function levelUp()
 			if((i+1)%12==0)
 				document.getElementById('periodicTable').innerHTML+="<br>";
 		}
-		document.getElementById('level9').addEventListener('keydown', function(e){ if(e.keyCode==9){e.preventDefault(); return false;}});
+		document.getElementById('level9').addEventListener('keydown', function(e){ if(e.keyCode==9 || e.keyCode==32 || e.keyCode==13){e.preventDefault(); return false;}});
 		document.getElementById('level9').addEventListener("mousemove",mossoMouse);
 		document.getElementById("level9").addEventListener("contextmenu", sparitoMouse);
 		window.addEventListener("blur",sparitoMouse);
