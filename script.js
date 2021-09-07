@@ -57,16 +57,33 @@ function pageLoaded()
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
 	//generate random stars
-	for(s=0;s<300;s++)
+	//small
+	var star = document.createElement('div');
+	var size=1;
+	var style="position: absolute; width: "+size+"px; height: "+size+"px; background: transparent; box-shadow: ";
+	
+	for(s=0;s<1000;s++)
+	{		
+		var x=rand(0,window.innerWidth);
+		var y=rand(-150,2000);
+	    style+=""+x+"px "+y+"px #FFF, ";
+	}
+	//TODO gestisci il separatore finale
+	var x=rand(0,window.innerWidth);
+	var y=rand(-150,2000);
+	style+=x+"px "+y+"px #FFF; animation: animStar "+50*size+"s linear infinite;";
+	star.style=style;
+	document.getElementById("level0").appendChild(star);
+	/*
+	for(s=0;s<100;s++)
 	{
 		var star = document.createElement('div');
-		star.id="star"+secondsPassed%1000;
 		var size=rand(1,3);
-		var x=rand(0,window.innerWidth);
-		var y=rand(-75,0);
-	    star.style="position: absolute; width: "+size+"px; height: "+size+"px; background: transparent; box-shadow: "+x+"px "+y+"px #FFF; animation: animStar "+5*size+"s linear infinite;";
-	    document.getElementById("header").appendChild(star);
-	}
+		var x=rand(-2000,0);
+		var y=rand(0,2000);
+	    star.style="position: absolute; width: "+size+"px; height: "+size+"px; background: transparent; box-shadow: "+x+"px "+y+"px #FFF; animation: animStar "+50*size+"s linear infinite;";
+	    document.getElementById("level0").appendChild(star);
+	}*/
 	//TODO DEBUG
 	for(l=0;l<0;l++)
 		levelUp();
@@ -304,7 +321,7 @@ function loading()
 				}
 			}
 			else
-				loadingProgress-=4.5;
+				loadingProgress-=2.5;
 		}
 		else if(Date.now()-lastMovementTs<2000)
 		{
@@ -346,6 +363,14 @@ function loading()
 		ctx.beginPath();
 		ctx.arc(2+loaderPosition,350,5,0,7);
 		ctx.stroke();
+		//eyebrows
+		ctx.beginPath();
+		ctx.arc(loaderPosition-4,331,5,Math.PI/2+0.2,-Math.PI/2);
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.arc(loaderPosition-4,349,5,Math.PI/2+0.5,-Math.PI/2);
+		ctx.stroke();
+
 		//qualche frame fagli chiudere gli occhi
 		if(Date.now()%2000<100)
 			ctx.lineWidth = 7;
