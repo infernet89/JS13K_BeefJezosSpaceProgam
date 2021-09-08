@@ -1,7 +1,7 @@
-var maxLevel=12;//TODO DEBUG
+var maxLevel=12;
 var secondsPassed=0;
 var level=0;
-var seatsLeft=9999;
+var seatsLeft=rand(8000,9999);//TODO DEBUG
 var phoneDigits=[];
 var cooldown=false;
 var loadingProgress=0;
@@ -42,6 +42,7 @@ function pageLoaded()
 {
 	for(i=level+1;i<=maxLevel;i++)
 		document.getElementById("level"+i).style="display: none";
+	document.getElementById("gameOver").style="display: none";
 	document.getElementById("personalInfo").addEventListener("contextmenu", function(evt){ evt.preventDefault(); }, false);
 	document.addEventListener("copy", function(evt){ evt.clipboardData.setData("text/plain", "SPAAAAAACE!");evt.preventDefault();}, false);
 	setInterval(animate,1000);
@@ -56,41 +57,38 @@ function pageLoaded()
 	document.getElementById("infoZipCode").innerHTML=zipCode;
 	document.getElementById("infoPhone").innerHTML=phone;
 	document.getElementById("infoEmail").innerHTML=email;
-	//generate random stars
-	//small
-	var star = document.createElement('div');
-	var size=1;
-	var style="position: absolute; width: "+size+"px; height: "+size+"px; background: transparent; box-shadow: ";
-	
-	for(s=0;s<1000;s++)
-	{		
-		var x=rand(0,window.innerWidth);
-		var y=rand(-150,2000);
-	    style+=""+x+"px "+y+"px #FFF, ";
-	}
-	//TODO gestisci il separatore finale (togli l'ultima virgola spazio, o gli ultimi due caratteri)
-	var x=rand(0,window.innerWidth);
-	var y=rand(-150,2000);
-	style+=x+"px "+y+"px #FFF; animation: animStar "+50*size+"s linear infinite;";
-	star.style=style;
-	document.getElementById("level0").appendChild(star);
-	/*
-	for(s=0;s<100;s++)
+	for(el of ["level0","level12"])
 	{
-		var star = document.createElement('div');
-		var size=rand(1,3);
-		var x=rand(-2000,0);
-		var y=rand(0,2000);
-	    star.style="position: absolute; width: "+size+"px; height: "+size+"px; background: transparent; box-shadow: "+x+"px "+y+"px #FFF; animation: animStar "+50*size+"s linear infinite;";
-	    document.getElementById("level0").appendChild(star);
-	}*/
+		//generate random stars
+		for(size=1;size<4;size++)
+		{
+			var star = document.createElement('div');
+			var style="position: absolute; width: "+size+"px; height: "+size+"px; background: transparent; box-shadow: ";
+			for(s=0;s<1000;s++)
+			{		
+				var x=rand(0,window.innerWidth);
+				var y=rand(-250,2000);
+			    style+=""+x+"px "+y+"px #FFF, ";
+			}
+			style=style.substring(0,style.length-2)
+			style+="; animation: animStar "+50*size+"s linear infinite;";
+			star.style=style;
+			document.getElementById(el).appendChild(star);
+		}
+	}
 	//TODO DEBUG
-	for(l=0;l<0;l++)
+	for(l=0;l<11;l++)
 		levelUp();
 }
 function levelUp()
 {
 	document.getElementById("level"+level++).style="display: none";
+	if(seatsLeft<=0)
+	{
+		document.getElementById("gameOver").style="display: block";
+		document.getElementById('progressButtons').style.display='none';
+		return;
+	}
 	document.getElementById("level"+level).style="display: block";
 	//mostra i bottoni
 	document.getElementById('progressButtons').style.display='block';
@@ -108,6 +106,22 @@ function levelUp()
 		document.getElementById('birthDay').addEventListener('keydown', function(e){ e.preventDefault(); return false;});
 		//mese
 		document.getElementById('birthMonth').addEventListener('keydown', function(e){ if(e.keyCode<58 && e.keyCode>47){e.preventDefault(); return false;}});
+		//stars nel title
+		for(size=1;size<4;size++)
+		{
+			var star = document.createElement('div');
+			var style="position: absolute; width: "+size+"px; height: "+size+"px; background: transparent; box-shadow: ";
+			for(s=0;s<100;s++)
+			{		
+				var x=rand(-window.innerWidth,window.innerWidth*2);
+				var y=rand(-100,0);
+			    style+=""+x+"px "+y+"px #FFF, ";
+			}
+			style=style.substring(0,style.length-2)
+			style+="; animation: scrollStar "+50*size+"s linear infinite;";
+			star.style=style;
+			document.getElementById("header").appendChild(star);
+		}
 	}
 	else if(level==2)
 	{
@@ -548,7 +562,10 @@ function distanceFrom(ax,ay,bx,by)
 function animate()
 {
 	secondsPassed++;
-	document.getElementById("seatsLeft").innerHTML=Math.floor(seatsLeft-=(10*Math.random()));
+	seatsLeft=Math.floor(seatsLeft-=(10*Math.random()))
+	if(seatsLeft<0)
+		seatsLeft=0;
+	document.getElementById("seatsLeft").innerHTML=seatsLeft;
 }
 //a seconda del livello, pulisci il form //TODO
 function cancel()
