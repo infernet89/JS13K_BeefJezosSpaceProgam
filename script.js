@@ -67,7 +67,7 @@ function pageLoaded()
 			for(s=0;s<1000;s++)
 			{		
 				var x=rand(0,window.innerWidth);
-				var y=rand(-250,2000);
+				var y=rand(-450,2000);
 			    style+=""+x+"px "+y+"px #FFF, ";
 			}
 			style=style.substring(0,style.length-2)
@@ -77,7 +77,7 @@ function pageLoaded()
 		}
 	}
 	//TODO DEBUG
-	for(l=0;l<0;l++)
+	for(l=0;l<11;l++)
 		levelUp();
 }
 function levelUp()
