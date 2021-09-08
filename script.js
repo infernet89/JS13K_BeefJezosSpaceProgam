@@ -37,6 +37,7 @@ var password="";
 var targetLoadingEnd=new Date();
 targetLoadingEnd.setHours(targetLoadingEnd.getHours()+12);
 var lastMovementTs=Date.now()
+var offline=false;
 
 function pageLoaded()
 {
@@ -77,7 +78,7 @@ function pageLoaded()
 		}
 	}
 	//TODO DEBUG
-	for(l=0;l<11;l++)
+	for(l=0;l<10;l++)
 		levelUp();
 }
 function levelUp()
@@ -404,7 +405,7 @@ function loading()
 		if((loadingProgress+=1.9995) > 100)
 		{
 			loadingProgress=100;
-			if(navigator.onLine)
+			if(checkInternet())
 				document.getElementById('modalAD').style.display='block';
 		}			
 		ctx.fillStyle="#FFF";
@@ -710,7 +711,7 @@ function submit()
 	}
 	else if(level==10)
 	{
-		if(navigator.onLine)
+		if(checkInternet())
 		{
 			console.log("Nice try!");
 			nErrors++;
@@ -914,6 +915,26 @@ function getZodiac(month, day){
 	else
 		return "capricorn";
 	
+}
+function checkInternet()
+{
+
+	if(navigator.onLine===false)
+	{
+		offline=true;
+		return !offline;
+	}
+	//TODO ajax call
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status != 200)
+	    {
+	    	 	offline=true;
+	    }	   
+	};
+	xhttp.open("GET", "http://infernet89.altervista.org/ping.php", true);
+	xhttp.send();
+	return !offline;
 }
 function rand(da, a)
 {
