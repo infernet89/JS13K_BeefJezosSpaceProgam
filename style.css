@@ -61,6 +61,11 @@ button {
   margin: 0.3em;
 }
 
+#level0 h2, #level0 h3 {
+  position: absolute;
+  text-shadow: 0px 0px 20px #FFF;
+}
+
 .smallButton {
   font-size: 0.8em;
   border-radius: 5px;

@@ -1,7 +1,7 @@
 var maxLevel=12;
 var secondsPassed=0;
 var level=0;
-var seatsLeft=rand(8000,9999);//TODO DEBUG
+var seatsLeft=rand(8000,9999);
 var phoneDigits=[];
 var cooldown=false;
 var loadingProgress=0;
@@ -60,6 +60,10 @@ function pageLoaded()
 	document.getElementById("infoEmail").innerHTML=email;
 	for(el of ["level0","level12"])
 	{
+		if(el=="level0")
+			opacity=0.5;
+		else
+			opacity=1.0;
 		//generate random stars
 		for(size=1;size<4;size++)
 		{
@@ -69,7 +73,7 @@ function pageLoaded()
 			{		
 				var x=rand(0,window.innerWidth);
 				var y=rand(-450,2000);
-			    style+=""+x+"px "+y+"px #FFF, ";
+			    style+=""+x+"px "+y+"px rgba(255, 255, 255, "+opacity+"), ";
 			}
 			style=style.substring(0,style.length-2)
 			style+="; animation: animStar "+50*size+"s linear infinite;";
@@ -78,7 +82,7 @@ function pageLoaded()
 		}
 	}
 	//TODO DEBUG
-	for(l=0;l<10;l++)
+	for(l=0;l<0;l++)
 		levelUp();
 }
 function levelUp()
@@ -924,15 +928,10 @@ function checkInternet()
 		offline=true;
 		return !offline;
 	}
-	//TODO ajax call
+	//remote call
 	xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status != 200)
-	    {
-	    	 	offline=true;
-	    }	   
-	};
-	xhttp.open("GET", "http://infernet89.altervista.org/ping.php", true);
+	xhttp.onreadystatechange = function() { if (this.readyState == 4 && this.status != 200) offline=true;};
+	xhttp.open("GET", location.href, true);
 	xhttp.send();
 	return !offline;
 }
