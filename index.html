@@ -227,11 +227,15 @@
 		<div id='level12'>
 			<h2><b>Congratulations!</b> You can now redeem your ticket by clicking below:</h2>
 			<br/>
-			<span id='beforeFlash'/>
+			<p id='beforeFlash'></p>
 			<embed src="spaceTicket.swf" quality=high bgcolor=#000000 WIDTH="400" HEIGHT="500" NAME="spackeTicket" ALIGN="center" TYPE="application/x-shockwave-flash">
 				<noembed>Your year does not support flash!</noembed>
 			</embed>
-			<span id='afterFlash'/>
+			<div id='flashErrorFallback'>
+				<p style='font-size: 3em; margin: 0'>⚠</p>
+				<p>Adobe Flash Player is no longer supported</p>
+			</div>
+			<p id='afterFlash'></p>
 			<br/>
 			<h2 style="text-align: center; color: #111;">YOU WON!</h2>
 			<br/>

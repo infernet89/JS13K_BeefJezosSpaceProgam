@@ -82,7 +82,7 @@ function pageLoaded()
 		}
 	}
 	//TODO DEBUG
-	for(l=0;l<11;l++)
+	for(l=0;l<0;l++)
 		levelUp();
 }
 function levelUp()
@@ -281,7 +281,8 @@ function checkFlashError()
 	//missing "Flash Unsupported" error.
 	if(document.getElementById('afterFlash').getBoundingClientRect().top-document.getElementById('beforeFlash').getBoundingClientRect().top<10)
 	{
-		document.title="SIGH!";
+		document.getElementById("flashErrorFallback").style="display: block";
+		//document.title="SIGH!";
 	}
 }
 function progressAge()
