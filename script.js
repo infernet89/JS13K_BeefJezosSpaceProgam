@@ -49,23 +49,24 @@ function pageLoaded()
 	setInterval(animate,1000);
 	//fill info
 	document.getElementById("infoName").innerHTML=name;
-	createCookie("name",name,2);
 	document.getElementById("infoSurname").innerHTML=surname;
-	createCookie("surname",surname,2);
 	document.getElementById("infoBirthDay").innerHTML=(birthDay<10?"0":"")+birthDay;;
 	document.getElementById("infoBirthMonth").innerHTML=(birthMonth<10?"0":"")+birthMonth;
 	document.getElementById("infoBirthYear").innerHTML=birthYear;
-	createCookie("birthDay",birthDay+"-"+birthMonth+"-"+birthYear,2);
 	document.getElementById("infoCountry").innerHTML=country;
-	createCookie("country",country,2);
 	document.getElementById("infoCity").innerHTML=city;
-	createCookie("city",city,2);
 	document.getElementById("infoZipCode").innerHTML=zipCode;
-	createCookie("zipCode",zipCode,2);
 	document.getElementById("infoPhone").innerHTML=phone;
-	createCookie("phone",phone,2);
 	document.getElementById("infoEmail").innerHTML=email;
-	createCookie("email",email,2);
+	//cookie
+	createCookie("name",name,1);
+	createCookie("surname",surname,1);
+	createCookie("birthDay",birthDay+"-"+birthMonth+"-"+birthYear,1);
+	createCookie("country",country,1);
+	createCookie("city",city,1);
+	createCookie("zipCode",zipCode,1);
+	createCookie("phone",phone,1);
+	createCookie("email",email,1);
 	for(el of ["level0","level12"])
 	{
 		if(el=="level0")
@@ -84,7 +85,7 @@ function pageLoaded()
 			    style+=""+x+"px "+y+"px rgba(255, 255, 255, "+opacity+"), ";
 			}
 			style=style.substring(0,style.length-2)
-			style+="; animation: animStar "+50*(4-size)+"s linear infinite;";
+			style+="; animation: animStar "+50*size+"s linear infinite;";
 			star.style=style;
 			document.getElementById(el).appendChild(star);
 		}
