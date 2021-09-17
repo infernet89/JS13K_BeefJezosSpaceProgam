@@ -49,15 +49,23 @@ function pageLoaded()
 	setInterval(animate,1000);
 	//fill info
 	document.getElementById("infoName").innerHTML=name;
+	createCookie("name",name,2);
 	document.getElementById("infoSurname").innerHTML=surname;
+	createCookie("surname",surname,2);
 	document.getElementById("infoBirthDay").innerHTML=(birthDay<10?"0":"")+birthDay;;
 	document.getElementById("infoBirthMonth").innerHTML=(birthMonth<10?"0":"")+birthMonth;
 	document.getElementById("infoBirthYear").innerHTML=birthYear;
+	createCookie("birthDay",birthDay+"-"+birthMonth+"-"+birthYear,2);
 	document.getElementById("infoCountry").innerHTML=country;
+	createCookie("country",country,2);
 	document.getElementById("infoCity").innerHTML=city;
+	createCookie("city",city,2);
 	document.getElementById("infoZipCode").innerHTML=zipCode;
+	createCookie("zipCode",zipCode,2);
 	document.getElementById("infoPhone").innerHTML=phone;
+	createCookie("phone",phone,2);
 	document.getElementById("infoEmail").innerHTML=email;
+	createCookie("email",email,2);
 	for(el of ["level0","level12"])
 	{
 		if(el=="level0")
@@ -947,4 +955,12 @@ function rand(da, a)
     if(da>a) return rand(a,da);
     a=a+1;
     return Math.floor(Math.random()*(a-da)+da);
+}
+function createCookie(name, value, days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = '; expires=' + date.toGMTString();
+    } else var expires = '';
+    document.cookie = name + '=' + value + expires + '; path=/';
 }
