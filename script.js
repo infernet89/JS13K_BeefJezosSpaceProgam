@@ -84,7 +84,7 @@ function pageLoaded()
 			    style+=""+x+"px "+y+"px rgba(255, 255, 255, "+opacity+"), ";
 			}
 			style=style.substring(0,style.length-2)
-			style+="; animation: animStar "+50*size+"s linear infinite;";
+			style+="; animation: animStar "+50*(4-size)+"s linear infinite;";
 			star.style=style;
 			document.getElementById(el).appendChild(star);
 		}
