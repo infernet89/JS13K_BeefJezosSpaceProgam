@@ -5,9 +5,16 @@
 	<title>Beef Jezos Space Program</title>
 	<link rel="stylesheet" href="style.css"></link>
 	<script src="script.js"></script> 
+	<script type="module">
+		import * as faces from "./node_modules/facesjs/build/esmodules/index.js";
+		const face = faces.generate();
+		faces.display("person-avatar", face);
+	</script> 
 </head>
 <body id='allPage' onload='pageLoaded()'>
 	<nav id='personalInfo'>
+		<br/><br/>
+		<div id='person-avatar'> </div>
 		<span id='infoName'></span> <span id='infoSurname'></span>
 		<br/><br/>
 		Born on:<br/>
