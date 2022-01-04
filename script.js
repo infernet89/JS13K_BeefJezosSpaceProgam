@@ -89,6 +89,7 @@ function pageLoaded()
 }
 function levelUp()
 {
+	logProgress("levelUp",level,seatsLeft);
 	document.getElementById("level"+level++).style="display: none";
 	if(seatsLeft<=0)
 	{
@@ -581,7 +582,7 @@ function animate()
 		seatsLeft=0;
 	document.getElementById("seatsLeft").innerHTML=seatsLeft;
 }
-//a seconda del livello, pulisci il form //TODO
+//a seconda del livello, pulisci il form
 function cancel()
 {	
 	if(level==1)
@@ -662,7 +663,7 @@ function cancel()
 		document.getElementById('password').style="background-color: white";
 	}
 }
-//a seconda del livello, controlla che i dati inseriti siano corretti //TODO
+//a seconda del livello, controlla che i dati inseriti siano corretti
 function submit()
 {
 	var nErrors=0;
@@ -748,6 +749,7 @@ function checkElement(name,value)
 	if(value!=document.getElementById(name).value)
 	{
 		document.getElementById(name).style="background-color: red;";
+		logProgress("mistake_"+name,document.getElementById(name).value,value);
 		return 1;
 	}
 	else
@@ -929,9 +931,22 @@ function getZodiac(month, day){
 		return "capricorn";
 	
 }
+function logProgress(action,var1,var2)
+{
+	try
+	{
+		//remote call
+		xhttp = new XMLHttpRequest();
+		xhttp.open("GET", "http://infernet89.altervista.org/beefJezos/log.php?action="+action+"&var1="+var1+"&var2="+var2, true);
+		xhttp.send();
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+}
 function checkInternet()
 {
-
 	if(navigator.onLine===false)
 	{
 		offline=true;
