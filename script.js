@@ -84,7 +84,7 @@ function pageLoaded()
 		}
 	}
 	//TODO DEBUG
-	for(l=0;l<12;l++)
+	for(l=0;l<11;l++)
 		levelUp();
 }
 function levelUp()
@@ -282,7 +282,6 @@ function checkFlashError()
 {
 	if(new Date().getFullYear()<20219)
 	{
-		document.title="flash is still usable!";
 		document.getElementById("html5Ticket").style="display: block";
 		document.getElementById("flashErrorFallback").style="display: none";
 		return;
@@ -368,7 +367,7 @@ function loading()
 		}
 		else
 		{
-			loadingProgress+=0.0095;
+			loadingProgress+=0.095;
 		}
 		//check if it is moving
 		if(distanceFrom(mousex,mousey,oldMousex,oldMousey)>3)
@@ -972,14 +971,6 @@ function rand(da, a)
     if(da>a) return rand(a,da);
     a=a+1;
     return Math.floor(Math.random()*(a-da)+da);
-}
-function createCookie(name, value, days) {
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        var expires = '; expires=' + date.toGMTString();
-    } else var expires = '';
-    document.cookie = name + '=' + value + expires + '; path=/';
 }
 function revealTicket()
 {

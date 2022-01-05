@@ -165,6 +165,10 @@ button {
 #html5Ticket {
   z-index: 1;
 }
+#person-avatar {
+  z-index: 1;
+  position: relative;
+}
 /*Jelly Button by arronhunt: https://codepen.io/arronhunt/pen/WWOOeO*/
 #html5Ticket button {
   margin-right: 1%;
