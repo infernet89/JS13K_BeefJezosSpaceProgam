@@ -235,9 +235,14 @@
 			<h2><b>Congratulations!</b> You can now redeem your ticket by clicking below:</h2>
 			<br/>
 			<p id='beforeFlash'></p>
-			<embed src="spaceTicket.swf" quality=high bgcolor=#000000 WIDTH="400" HEIGHT="500" NAME="spackeTicket" ALIGN="center" TYPE="application/x-shockwave-flash">
+			<embed id='flashTicket' src="spaceTicket.swf" quality=high bgcolor=#000000 WIDTH="400" HEIGHT="500" NAME="spackeTicket" ALIGN="center" TYPE="application/x-shockwave-flash">
 				<noembed>Your year does not support flash!</noembed>
 			</embed>
+			<div id='html5Ticket'>
+				<button onclick='revealTicket()'>
+					<span>Reveal Ticket</span>
+				</button>
+			</div>
 			<div id='flashErrorFallback'>
 				<p style='font-size: 3em; margin: 0'>⚠</p>
 				<p>Adobe Flash Player is no longer supported</p>

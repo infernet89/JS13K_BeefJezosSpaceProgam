@@ -84,7 +84,7 @@ function pageLoaded()
 		}
 	}
 	//TODO DEBUG
-	for(l=0;l<0;l++)
+	for(l=0;l<12;l++)
 		levelUp();
 }
 function levelUp()
@@ -280,6 +280,13 @@ function levelUp()
 }
 function checkFlashError()
 {
+	if(new Date().getFullYear()<20219)
+	{
+		document.title="flash is still usable!";
+		document.getElementById("html5Ticket").style="display: block";
+		document.getElementById("flashErrorFallback").style="display: none";
+		return;
+	}
 	//console.log(document.getElementById('beforeFlash').getBoundingClientRect().top,document.getElementById('afterFlash').getBoundingClientRect().top);
 	//missing "Flash Unsupported" error.
 	if(document.getElementById('afterFlash').getBoundingClientRect().top-document.getElementById('beforeFlash').getBoundingClientRect().top<10)
@@ -287,6 +294,7 @@ function checkFlashError()
 		document.getElementById("flashErrorFallback").style="display: block";
 		//document.title="SIGH!";
 	}
+	setTimeout(checkFlashError,10000);
 }
 function progressAge()
 {
@@ -972,4 +980,8 @@ function createCookie(name, value, days) {
         var expires = '; expires=' + date.toGMTString();
     } else var expires = '';
     document.cookie = name + '=' + value + expires + '; path=/';
+}
+function revealTicket()
+{
+	document.getElementById('html5Ticket').innerHTML="This is your personal ticket.</br>You can use this ticket to gain access to the spaceship, as soon they're built. </br>It is <b>ILLEGAL</b> to share this on any social network.";
 }
