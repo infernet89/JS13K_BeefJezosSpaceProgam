@@ -84,7 +84,7 @@ function pageLoaded()
 		}
 	}
 	//TODO DEBUG
-	for(l=0;l<11;l++)
+	for(l=0;l<0;l++)
 		levelUp();
 }
 function levelUp()
@@ -280,10 +280,11 @@ function levelUp()
 }
 function checkFlashError()
 {
-	if(new Date().getFullYear()<20219)
+	if(new Date().getFullYear()<2021)
 	{
 		document.getElementById("html5Ticket").style="display: block";
 		document.getElementById("flashErrorFallback").style="display: none";
+		document.getElementById("flashTicket").style="display: none";
 		return;
 	}
 	//console.log(document.getElementById('beforeFlash').getBoundingClientRect().top,document.getElementById('afterFlash').getBoundingClientRect().top);
@@ -974,5 +975,5 @@ function rand(da, a)
 }
 function revealTicket()
 {
-	document.getElementById('html5Ticket').innerHTML="This is your personal ticket.</br>You can use this ticket to gain access to the spaceship, as soon they're built. </br>It is <b>ILLEGAL</b> to share this on any social network.";
+	document.getElementById('html5Ticket').innerHTML="<div id='goldenTicket'><p></br>This is your personal ticket.</br></br>You can use this ticket to gain access to the spaceship, as soon they're built.</br>It is <b>ILLEGAL</b> to share this ticket on any social network.</br></br>Enjoy! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Beef Jezos</p></div>";
 }
