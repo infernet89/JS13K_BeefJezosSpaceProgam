@@ -941,11 +941,12 @@ function getZodiac(month, day){
 }
 function logProgress(action,var1,var2)
 {
+	return;//TODO debug
 	try
 	{
 		//remote call
 		xhttp = new XMLHttpRequest();
-		xhttp.open("GET", "http://infernet89.altervista.org/beefJezos/log.php?action="+action+"&var1="+var1+"&var2="+var2, true);
+		xhttp.open("GET", "https://infernet89.altervista.org/beefJezos/log.php?action="+action+"&var1="+var1+"&var2="+var2, true);
 		xhttp.send();
 	}
 	catch (error)
